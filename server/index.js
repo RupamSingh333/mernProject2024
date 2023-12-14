@@ -7,6 +7,8 @@ const PORT = process.env.PORT || 5000;
 const HOST = process.env.HOST || 'http://localhost';
 App.use(express.static("public"));
 
+// testing
+
 //Allow request from all origins
 App.use(cors());
 
