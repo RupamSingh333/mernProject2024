@@ -8,7 +8,7 @@ const SMTP = {
   secure: true,
   auth: {
     user: "pareeka8209@gmail.com",
-    pass: "toosmedwuyppiege",
+    pass: "hhpc vvhn achp sxsv",
   },
 };
 

@@ -1,13 +1,48 @@
 import React from "react";
+import { useState, useContext } from "react";
+import { AuthContext } from "../store/auth"
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
-import { useState } from "react";
 
 const Contact = () => {
+  const { token } = useContext(AuthContext);
+
   const [contact, setContact] = useState({
-    username: "",
+    name: "",
     email: "",
-    message: "",
+    mobile: "",
+    reason: ""
   });
+
+  const fetchUserDetails = async () => {
+    //call api
+    try {
+      const response = await fetch("http://localhost:5000/api/user-profile", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": token,
+        },
+      });
+      if (response.ok) {
+        const completeRes = await response.json();
+
+        const myUser = {
+          name: completeRes.data.name,
+          email: completeRes.data.email,
+          mobile: completeRes.data.mobile
+        }
+        setContact(myUser);
+      } else {
+        const errorResponse = await response.json();
+      }
+    } catch (error) {
+      console.log("Error on Contact Page:", error);
+    }
+  };
+
+  fetchUserDetails();
 
   // lets tackle our handleInput
   const handleInput = (e) => {
@@ -20,11 +55,38 @@ const Contact = () => {
     });
   };
 
+
   // handle fomr getFormSubmissionInfo
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    console.log(contact);
+    try {
+      const response = await fetch("http://localhost:5000/api/contact-us", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(contact),
+      });
+
+
+      if (response.ok) {
+        const completeRes = await response.json();
+        toast.success(
+          completeRes.message
+        );
+      } else {
+        const errorResponse = await response.json();
+        toast.error(
+          errorResponse.message
+        );
+      }
+    } catch (error) {
+      console.log("Error on contact Page:", error);
+      toast.error("An unexpected error occurred.");
+    }
+
+    // console.log(contact);
   };
 
   //  Help me reach 1 Million subs 👉 https://youtube.com/thapatechnical
@@ -45,14 +107,15 @@ const Contact = () => {
           <section className="section-form">
             <form onSubmit={handleSubmit}>
               <div>
-                <label htmlFor="username">username</label>
+                <label htmlFor="name">name</label>
                 <input
                   type="text"
-                  name="username"
-                  id="username"
+                  name="name"
+                  id="name"
                   autoComplete="off"
-                  value={contact.username}
+                  value={contact.name}
                   onChange={handleInput}
+                  placeholder="Name"
                   required
                 />
               </div>
@@ -66,6 +129,21 @@ const Contact = () => {
                   autoComplete="off"
                   value={contact.email}
                   onChange={handleInput}
+                  placeholder="Email"
+                  required
+                />
+              </div>
+
+              <div>
+                <label htmlFor="email">mobile</label>
+                <input
+                  type="number"
+                  name="mobile"
+                  id="mobile"
+                  autoComplete="off"
+                  value={contact.mobile}
+                  onChange={handleInput}
+                  placeholder="+91 7688XXXXXX"
                   required
                 />
               </div>
@@ -73,17 +151,18 @@ const Contact = () => {
               <div>
                 <label htmlFor="message">message</label>
                 <textarea
-                  name="message"
-                  id="message"
+                  name="reason"
+                  id="reason"
                   autoComplete="off"
-                  value={contact.message}
+                  value={contact.reason}
                   onChange={handleInput}
+                  placeholder="Message write here..."
                   required
                   cols="30"
                   rows="6"
                 ></textarea>
               </div>
-
+              <ToastContainer />
               <div>
                 <button type="submit">submit</button>
               </div>

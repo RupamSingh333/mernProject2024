@@ -45,7 +45,7 @@ const Login = () => {
         const errorResponse = await response.json();
         toast.error(
           errorResponse.message ||
-            "Login failed. Invalid credentials or server error."
+          "Login failed. Invalid credentials or server error."
         );
       }
     } catch (error) {
@@ -79,6 +79,7 @@ const Login = () => {
                     value={user.email}
                     onChange={handleInput}
                     placeholder="email"
+                    required
                   />
                 </div>
 
@@ -90,6 +91,7 @@ const Login = () => {
                     value={user.password}
                     onChange={handleInput}
                     placeholder="password"
+                    required
                   />
                 </div>
                 <ToastContainer />

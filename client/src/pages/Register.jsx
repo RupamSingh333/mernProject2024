@@ -1,33 +1,44 @@
-import { useState } from "react";
+import React, { useState, useContext, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../store/auth";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Register = () => {
+
+  const { isLoggedIn } = useContext(AuthContext);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      navigate('/');
+    }
+  }, [isLoggedIn])
+
+
   const [user, setUser] = useState({
-    username: "",
+    name: "",
+    mobile: "",
     email: "",
-    phone: "",
-    password: "",
+    password: ""
   });
 
   const handleInput = (e) => {
-    console.log(e);
     let name = e.target.name;
     let value = e.target.value;
 
     setUser({
       ...user,
       [name]: value,
-    });
+    })
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Assuming user state contains the necessary data for registration
-    console.log(user);
-
     try {
-      const response = await fetch("https://reqres.in/api/register", {
-        method: "POST",
+      const response = await fetch("http://localhost:5000/api/register-user", {
+        method: 'POST',
         headers: {
           "Content-Type": "application/json",
         },
@@ -35,20 +46,26 @@ const Register = () => {
       });
 
       if (response.ok) {
-        // Registration successful
-        const responseData = await response.json();
-        console.log("Registration successful:", responseData);
+        const completeRes = await response.json();
+        toast.success(
+          completeRes.message
+        );
       } else {
-        // Registration failed
-        const errorData = await response.json();
-        console.error("Registration failed:", errorData);
+        const errorResponse = await response.json();
+        toast.error(
+          errorResponse.message ||
+          "Register failed. Invalid credentials or server error."
+        );
       }
+
     } catch (error) {
-      console.error("Error during registration:", error);
+      console.log("Error in Register Page", error);
+      toast.error("An unexpected error occurred.");
     }
+
   };
 
-  //  Help me reach 1 Million subs 👉 https://youtube.com/thapatechnical
+
 
   return (
     <>
@@ -73,10 +90,11 @@ const Register = () => {
                     <label htmlFor="username">username</label>
                     <input
                       type="text"
-                      name="username"
-                      value={user.username}
+                      name="name"
+                      value={user.name}
                       onChange={handleInput}
-                      placeholder="username"
+                      placeholder="name"
+                      required
                     />
                   </div>
                   <div>
@@ -87,15 +105,18 @@ const Register = () => {
                       value={user.email}
                       onChange={handleInput}
                       placeholder="email"
+                      required
                     />
                   </div>
                   <div>
                     <label htmlFor="phone">phone</label>
                     <input
                       type="number"
-                      name="phone"
-                      value={user.phone}
+                      name="mobile"
+                      value={user.mobile}
                       onChange={handleInput}
+                      placeholder="Number"
+                      required
                     />
                   </div>
                   <div>
@@ -106,8 +127,10 @@ const Register = () => {
                       value={user.password}
                       onChange={handleInput}
                       placeholder="password"
+                      required
                     />
                   </div>
+                  <ToastContainer />
                   <br />
                   <button type="submit" className="btn btn-submit">
                     Register Now
