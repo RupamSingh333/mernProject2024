@@ -29,6 +29,9 @@ const Navbar = () => {
             {isLoggedIn ? (
               <>
                 <li>
+                  <NavLink to="/user-profile">Profile</NavLink>
+                </li>
+                <li>
                   <Link to="/" onClick={logout}>
                     Logout
                   </Link>

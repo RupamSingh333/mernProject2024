@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../store/auth";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const Register = () => {
@@ -130,7 +130,6 @@ const Register = () => {
                       required
                     />
                   </div>
-                  <ToastContainer />
                   <br />
                   <button type="submit" className="btn btn-submit">
                     Register Now

@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../store/auth";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const Login = () => {
@@ -94,7 +94,6 @@ const Login = () => {
                     required
                   />
                 </div>
-                <ToastContainer />
                 <br />
                 <button type="submit" className="btn btn-submit">
                   Login Now

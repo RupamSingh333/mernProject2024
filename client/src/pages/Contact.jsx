@@ -1,12 +1,12 @@
 import React from "react";
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { AuthContext } from "../store/auth"
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 
 const Contact = () => {
-  const { token } = useContext(AuthContext);
+  const { authData, token } = useContext(AuthContext);
 
   const [contact, setContact] = useState({
     name: "",
@@ -15,34 +15,10 @@ const Contact = () => {
     reason: ""
   });
 
-  const fetchUserDetails = async () => {
-    //call api
-    try {
-      const response = await fetch("http://localhost:5000/api/user-profile", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": token,
-        },
-      });
-      if (response.ok) {
-        const completeRes = await response.json();
+  useEffect(() => {
+    setContact({ ...authData })
+  }, [authData])
 
-        const myUser = {
-          name: completeRes.data.name,
-          email: completeRes.data.email,
-          mobile: completeRes.data.mobile
-        }
-        setContact(myUser);
-      } else {
-        const errorResponse = await response.json();
-      }
-    } catch (error) {
-      console.log("Error on Contact Page:", error);
-    }
-  };
-
-  fetchUserDetails();
 
   // lets tackle our handleInput
   const handleInput = (e) => {
@@ -69,12 +45,24 @@ const Contact = () => {
         body: JSON.stringify(contact),
       });
 
-
       if (response.ok) {
         const completeRes = await response.json();
         toast.success(
           completeRes.message
         );
+        if (token) {
+          setContact({
+            ...contact,
+            reason: "",
+          });
+        } else {
+          setContact({
+            name: "",
+            email: "",
+            mobile: "",
+            reason: ""
+          });
+        }
       } else {
         const errorResponse = await response.json();
         toast.error(
@@ -162,7 +150,6 @@ const Contact = () => {
                   rows="6"
                 ></textarea>
               </div>
-              <ToastContainer />
               <div>
                 <button type="submit">submit</button>
               </div>
