@@ -695,3 +695,32 @@ input::file-selector-button:hover {
   background: rgb(13, 38, 81);
   color: grey;
 }
+
+/* CSS for UserList */
+
+table {
+  border: 1px solid rgb(92, 89, 89);
+  border-radius: 5px;
+  width: 80%;
+  text-align: center;
+  margin: auto;
+}
+
+table thead {
+  background-color: rgb(45, 44, 44);
+  font-size: 20px;
+}
+
+table thead th {
+  padding: 10px 0;
+}
+
+table tbody {
+  background-color: rgb(28, 27, 27);
+  font-size: 17px;
+}
+
+table tbody td {
+  padding: 10px 0;
+  color: rgb(212, 211, 211);
+}

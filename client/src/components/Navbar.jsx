@@ -32,6 +32,9 @@ const Navbar = () => {
                   <NavLink to="/user-profile">Profile</NavLink>
                 </li>
                 <li>
+                  <NavLink to="/view-all-user">Users</NavLink>
+                </li>
+                <li>
                   <Link to="/" onClick={logout}>
                     Logout
                   </Link>

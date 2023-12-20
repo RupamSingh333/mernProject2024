@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const Login = () => {
-  const { setTokenInLs } = useContext(AuthContext);
+  const { setTokenInLs, login } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const [user, setUser] = useState({

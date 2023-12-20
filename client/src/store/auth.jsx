@@ -1,4 +1,5 @@
 import React, { createContext, useState, useEffect } from "react";
+import loginUser from "../services/api";
 
 // Create AuthContext
 export const AuthContext = createContext();
@@ -12,6 +13,21 @@ export const AuthProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(!!token);
   const [authData, setAuthData] = useState({});
 
+  const [loggedInUser, setLoggedInUser] = useState(null);
+  const login = async (email, password) => {
+    try {
+      const response = await loginUser(email, password);
+
+      if (response.success) {
+        setLoggedInUser(response.data);
+        localStorage.setItem("loggedInUser", JSON.stringify(response.data));
+      }
+
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  };
   // Function to handle login
   const setTokenInLs = (newToken) => {
     setToken(newToken);
@@ -25,32 +41,32 @@ export const AuthProvider = ({ children }) => {
     localStorage.removeItem("token");
   };
 
+  const fetchUserDetails = async () => {
+    //call api
+    try {
+      const response = await fetch("http://localhost:5000/api/user-profile", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": token,
+        },
+      });
+      if (response.ok) {
+        const completeRes = await response.json();
+        const userData = completeRes.data;
+        setAuthData({ ...userData });
+      } else {
+        const errorResponse = await response.json();
+        logout();
+      }
+    } catch (error) {
+      logout();
+      console.log("Error on Contact Page:", error);
+    }
+  };
   // useEffect to update isLoggedIn based on token changes
   useEffect(() => {
     setIsLoggedIn(!!token);
-    const fetchUserDetails = async () => {
-      //call api
-      try {
-        const response = await fetch("http://localhost:5000/api/user-profile", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": token,
-          },
-        });
-        if (response.ok) {
-          const completeRes = await response.json();
-          const userData = completeRes.data;
-          setAuthData({ ...userData });
-        } else {
-          const errorResponse = await response.json();
-          logout();
-        }
-      } catch (error) {
-        logout();
-        console.log("Error on Contact Page:", error);
-      }
-    };
     fetchUserDetails();
 
   }, [token]);
@@ -61,6 +77,8 @@ export const AuthProvider = ({ children }) => {
     isLoggedIn,
     setTokenInLs,
     logout,
+    login,
+    fetchUserDetails,
     authData
   };
 

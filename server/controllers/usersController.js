@@ -425,9 +425,9 @@ module.exports.updateProfile = async (req, res) => {
 
     const fileURL = path.join(__dirname, `../public/uploads/`);
     if (findProfile) {
-      if (avtar) {
-        fs.unlinkSync(`${fileURL}${findProfile.avtar}`);
-      }
+      // if (avtar) {
+      //   fs.unlinkSync(`${fileURL}${findProfile.avtar}`);
+      // }
       var condition = {};
       if (name) {
         const firstLetter = name[0];

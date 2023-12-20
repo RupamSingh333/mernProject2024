@@ -13,6 +13,7 @@ import Footer from "./components/Footer/Footer";
 import Error from "./pages/Error";
 import UserProfile from "./pages/UserProfile";
 import UpdateProfile from "./pages/UpdateProfile";
+import UsersList from "./components/UsersList";
 
 const App = () => {
   return (
@@ -29,6 +30,7 @@ const App = () => {
           <Route path="/login" element={<Login />} />
           <Route path="/user-profile" element={<UserProfile />} />
           <Route path="/update-profile" element={<UpdateProfile />} />
+          <Route path="/view-all-user" element={<UsersList />} />
           <Route path="*" element={<Error />} />
         </Routes>
         <Footer />
