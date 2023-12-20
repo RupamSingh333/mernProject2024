@@ -37,6 +37,13 @@ userRoute.post(
   userController.updateProfile
 );
 
+//delete user api
+userRoute.get(
+  "/delete-user",
+  auth,
+  userController.deleteUser
+);
+
 //delete all user api
 userRoute.get(
   "/delete-all-user",

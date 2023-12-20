@@ -461,6 +461,25 @@ module.exports.updateProfile = async (req, res) => {
   };
 };
 
+module.exports.deleteUser = async (req, res) => {
+  try {
+    const fileURL = path.join(__dirname, `../public/uploads/`);
+    const { _id } = req.query;
+    const findUser = await Users.findOne({ _id: new ObjectId(_id) });
+    if (findUser) {
+      if (findUser.avtar) {
+        fs.unlinkSync(`${fileURL}${findUser.avtar}`);
+      }
+      const deleteUser = await Users.deleteOne({ _id });
+      res.status(200).send({ success: true, message: "User has been delete successfully" });
+    } else {
+      res.status(400).send({ success: false, message: "User can't find" });
+    }
+  } catch (error) {
+    res.status(400).send({ success: false, message: error.message });
+  }
+};
+
 module.exports.deleteAllUser = async (req, res) => {
   try {
     const fileURL = path.join(__dirname, `../public/uploads/`);

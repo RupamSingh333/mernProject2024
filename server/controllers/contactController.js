@@ -23,3 +23,28 @@ module.exports.contactUs = async (req, res) => {
     };
 };
 
+module.exports.viewAllContact = async (req, res) => {
+    try {
+        const viewAllContact = await Contact.find({});
+        res.status(200).send({ success: true, message: "All User viewed successfully", data: viewAllContact });
+    } catch (error) {
+        console.log("Error from viewAllUser Function", error);
+    }
+};
+
+module.exports.deleteContact = async (req, res) => {
+    try {
+        const { _id } = req.query;
+        const findContact = await Contact.findOne({ _id: new ObjectId(_id) });
+        if (findContact) {
+
+            const deleteContact = await Contact.deleteOne({ _id });
+            res.status(200).send({ success: true, message: "Contact has been delete successfully" });
+        } else {
+            res.status(400).send({ success: false, message: "Contact can't find" });
+        }
+    } catch (error) {
+        res.status(400).send({ success: false, message: error.message });
+    }
+};
+
