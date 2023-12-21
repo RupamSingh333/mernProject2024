@@ -85,7 +85,7 @@ const ContactList = () => {
                                     <td>{email}</td>
                                     <td>{mobile}</td>
                                     <td>{reason}</td>
-                                    <td><button onClick={() => deleteContact(_id)}>Delete</button></td>
+                                    <td><button className='deleteBtn' onClick={() => deleteContact(_id)}>Delete</button></td>
                                 </tr>
                             )
                         })

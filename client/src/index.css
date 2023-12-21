@@ -732,6 +732,15 @@ table tbody td {
   color: rgb(212, 211, 211);
 }
 
+button.deleteBtn {
+  background-color: rgb(196, 54, 54);
+  margin-right: 10px;
+}
+
+button.deleteBtn:hover {
+  background-color: rgb(126, 24, 24);
+}
+
 
 /* dropdown CSS */
 
@@ -743,7 +752,7 @@ table tbody td {
   display: block;
   position: absolute;
   background: (0, 100, 0);
-  margin-top: 1px;
+  margin-top: -10px;
   margin-left: -50px;
 }
 
@@ -770,17 +779,18 @@ table tbody td {
 }
 
 .container ul li .navImg {
-  width: 35px;
-  height: 35px;
+  width: 5rem;
+  height: 5rem;
   margin: auto;
   overflow: hidden;
   border: 2px solid white;
   border-radius: 50%;
+  margin-top: -10px;
 }
 
 .container ul li .navImg a img {
-  width: 35px;
-  height: 25px;
+  width: 5rem;
+  height: 5rem;
   margin: auto;
   overflow: hidden;
 }

@@ -94,7 +94,7 @@ const UsersList = () => {
                         <th>Mobile</th>
                         <th>Role</th>
                         <th>Status</th>
-                        <th>Delete</th>
+                        <th>Operations</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -108,7 +108,8 @@ const UsersList = () => {
                                     <td>{mobile}</td>
                                     <td>{role}</td>
                                     <td>{status}</td>
-                                    <td><button onClick={() => deleteUser(_id)}>Delete</button></td>
+                                    <td><button className='deleteBtn' onClick={() => deleteUser(_id)}>Delete</button>
+                                        <button onClick={() => changeStatus(_id)}>Change Status</button></td>
                                 </tr>
                             )
                         })
