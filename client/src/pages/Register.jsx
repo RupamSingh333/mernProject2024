@@ -20,7 +20,8 @@ const Register = () => {
     name: "",
     mobile: "",
     email: "",
-    password: ""
+    password: "",
+    avtar: '',
   });
 
   const handleInput = (e) => {
@@ -33,23 +34,49 @@ const Register = () => {
     })
   };
 
+  const fileHandleInput = (e) => {
+    let name = e.target.name;
+    let value = e.target.files[0];
+    setUser({
+      ...user,
+      [name]: value,
+    })
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
+      // console.log(user);
+      // return false;
+      const formData = new FormData();
+      formData.append("name", user.name);
+      formData.append("mobile", user.mobile);
+      formData.append("email", user.email);
+      formData.append("password", user.password);
+      formData.append("avtar", user.avtar);
+
       const response = await fetch("http://localhost:5000/api/register-user", {
         method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          // "Content-Type": "application/json",
         },
-        body: JSON.stringify(user),
+        body: formData,
       });
 
       if (response.ok) {
         const completeRes = await response.json();
+        setUser({
+          name: "",
+          mobile: "",
+          email: "",
+          password: "",
+          avtar: '',
+        })
         toast.success(
           completeRes.message
         );
+        navigate('/login');
       } else {
         const errorResponse = await response.json();
         toast.error(
@@ -128,6 +155,14 @@ const Register = () => {
                       onChange={handleInput}
                       placeholder="password"
                       required
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="avtar">Avtar</label>
+                    <input
+                      type="file"
+                      name="avtar"
+                      onChange={fileHandleInput}
                     />
                   </div>
                   <br />

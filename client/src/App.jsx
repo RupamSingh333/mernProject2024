@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -14,8 +14,13 @@ import Error from "./pages/Error";
 import UserProfile from "./pages/UserProfile";
 import UpdateProfile from "./pages/UpdateProfile";
 import UsersList from "./components/UsersList";
+import ContactList from "./components/ContactList";
+import { AuthContext } from "./store/auth";
 
 const App = () => {
+
+  const { isLoggedIn, hasRole } = useContext(AuthContext);
+
   return (
     <>
       <BrowserRouter>
@@ -28,9 +33,13 @@ const App = () => {
           <Route path="/service" element={<Service />} />
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/user-profile" element={<UserProfile />} />
-          <Route path="/update-profile" element={<UpdateProfile />} />
-          <Route path="/view-all-user" element={<UsersList />} />
+
+          {isLoggedIn && (<Route path="/user-profile" element={<UserProfile />} />)}
+          {isLoggedIn && (<Route path="/update-profile" element={<UpdateProfile />} />)}
+
+          {hasRole('admin') && (<Route path="/view-all-user" element={<UsersList />} />)}
+          {hasRole('admin') && (<Route path="/view-all-contact" element={<ContactList />} />)}
+
           <Route path="*" element={<Error />} />
         </Routes>
         <Footer />

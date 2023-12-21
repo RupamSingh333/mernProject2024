@@ -4,7 +4,7 @@ import { AuthContext } from "../store/auth";
 import "./Navbar.css";
 
 const Navbar = () => {
-  const { isLoggedIn, logout } = useContext(AuthContext);
+  const { isLoggedIn, logout, hasRole, authData } = useContext(AuthContext);
 
   return (
     <header>
@@ -26,19 +26,39 @@ const Navbar = () => {
             <li>
               <NavLink to="/service">Service</NavLink>
             </li>
+
             {isLoggedIn ? (
               <>
+
                 <li>
-                  <NavLink to="/user-profile">Profile</NavLink>
+                  <div className="navImg">
+                    <NavLink><img src={authData.avtar} alt="" /></NavLink>
+                    <div className="dropdown">
+                      <ul>
+                        <li><NavLink to="/user-profile">Profile</NavLink></li>
+                        {hasRole('admin') && (
+
+                          <li>
+                            <NavLink to="/view-all-user">Users</NavLink>
+                          </li>
+
+                        )}
+                        {hasRole('admin') && (
+                          <li>
+                            <NavLink to="/view-all-contact">Contacts</NavLink>
+                          </li>
+                        )}
+                        <li>
+                          <Link to="/" onClick={logout}>
+                            Logout
+                          </Link>
+                        </li>
+
+                      </ul>
+                    </div>
+                  </div>
                 </li>
-                <li>
-                  <NavLink to="/view-all-user">Users</NavLink>
-                </li>
-                <li>
-                  <Link to="/" onClick={logout}>
-                    Logout
-                  </Link>
-                </li>
+
               </>
             ) : (
               <>

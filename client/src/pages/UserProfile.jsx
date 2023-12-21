@@ -9,12 +9,6 @@ const UserProfile = () => {
     const { isLoggedIn, authData } = useContext(AuthContext);
     const navigate = useNavigate();
 
-    useEffect(() => {
-        if (!isLoggedIn) {
-            navigate('/');
-        }
-    }, [isLoggedIn])
-
     const [contact, setContact] = useState({
         name: "",
         email: "",

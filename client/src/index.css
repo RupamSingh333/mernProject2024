@@ -61,7 +61,7 @@ li {
 /*? layout Rule  */
 
 .container {
-  max-width: 140rem;
+  max-width: 130rem;
   padding: 4rem 2.4rem;
   margin: 0 auto;
 }
@@ -569,6 +569,9 @@ a.active {
   max-width: 140rem;
   display: flex;
   flex-wrap: wrap;
+  border: 1px solid rgb(101, 98, 98);
+  border-radius: 5%;
+  margin: 50px;
 }
 
 .user-profile .profile .profile-data {
@@ -593,10 +596,14 @@ a.active {
 }
 
 .user-profile .profile .profile-data .user-name {
-  font-size: 30px;
+  font-size: 40px;
   font-weight: 700;
-  font-family: monospace;
-  color: rgb(170, 167, 167);
+  font-family: cursive;
+  background: #CF926A;
+  background: repeating-linear-gradient(to top, #CF926A 0%, #2385CF 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  ;
   margin-top: 10px;
 }
 
@@ -703,7 +710,7 @@ table {
   border-radius: 5px;
   width: 80%;
   text-align: center;
-  margin: auto;
+  margin: 50px auto;
 }
 
 table thead {
@@ -723,4 +730,57 @@ table tbody {
 table tbody td {
   padding: 10px 0;
   color: rgb(212, 211, 211);
+}
+
+
+/* dropdown CSS */
+
+.dropdown {
+  display: none;
+}
+
+.container ul li:hover .dropdown {
+  display: block;
+  position: absolute;
+  background: (0, 100, 0);
+  margin-top: 1px;
+  margin-left: -50px;
+}
+
+.container ul li:hover .dropdown ul {
+  display: block;
+  margin: 10px;
+}
+
+.container ul li:hover .dropdown ul li {
+  width: 120px;
+  padding: 10px;
+  border-bottom: 1px solid #6d6a6a;
+  /* background: transparent; */
+  border-radius: 0;
+  text-align: left;
+}
+
+.container .dropdown ul li:hover {
+  background: rgb(37, 36, 36);
+}
+
+.container ul li:hover .dropdown ul li:last-child {
+  border-bottom: none;
+}
+
+.container ul li .navImg {
+  width: 35px;
+  height: 35px;
+  margin: auto;
+  overflow: hidden;
+  border: 2px solid white;
+  border-radius: 50%;
+}
+
+.container ul li .navImg a img {
+  width: 35px;
+  height: 25px;
+  margin: auto;
+  overflow: hidden;
 }

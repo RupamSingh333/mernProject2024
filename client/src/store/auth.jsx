@@ -13,6 +13,10 @@ export const AuthProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(!!token);
   const [authData, setAuthData] = useState({});
 
+  const hasRole = (role) => {
+    return isLoggedIn && authData.role === role;
+  }
+
   const [loggedInUser, setLoggedInUser] = useState(null);
   const login = async (email, password) => {
     try {
@@ -79,7 +83,8 @@ export const AuthProvider = ({ children }) => {
     logout,
     login,
     fetchUserDetails,
-    authData
+    authData,
+    hasRole
   };
 
   return (
