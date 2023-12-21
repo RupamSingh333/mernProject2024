@@ -76,6 +76,13 @@ userRoute.post("/update-master-password",
   auth,
   userController.updateMasterPassword);
 
+//Change Status
+userRoute.get(
+  "/change-status",
+  auth,
+  userController.changeStatus
+);
+
 
 
 module.exports = userRoute;

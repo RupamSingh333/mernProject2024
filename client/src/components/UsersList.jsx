@@ -57,6 +57,34 @@ const UsersList = () => {
         }
     };
 
+    const changeStatus = async (_id) => {
+        try {
+            const response = await fetch(`http://localhost:5000/api/change-status?_id=${_id}`, {
+                method: "GET",
+                headers: {
+                    "Authorization": token,
+                },
+            });
+
+            if (response.ok) {
+                const completeRes = await response.json();
+                toast.success(
+                    completeRes.message
+                );
+
+
+            } else {
+                const errorResponse = await response.json();
+                toast.error(
+                    errorResponse.message
+                );
+            }
+        } catch (error) {
+            console.log("Error on changeStatus function:", error);
+            toast.error("An unexpected error occurred.");
+        }
+    };
+
 
 
 

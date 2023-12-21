@@ -585,3 +585,24 @@ module.exports.updateMasterPassword = async (req, res) => {
     console.log("Error from updatePassword function", error);
   }
 };
+
+module.exports.changeStatus = async (req, res) => {
+  try {
+    const { _id } = req.query;
+    const findProfile = await Users.findOne({ _id: new ObjectId(_id) });
+
+    if (findProfile) {
+      if (findProfile.status == "N") {
+        const changeStatus = await Users.updateOne({ _id }, { $set: { status: "Y", token: "" } });
+      } else if (findProfile.status == "Y") {
+        const changeStatus = await Users.updateOne({ _id }, { $set: { status: "N" } });
+      }
+      res.status(200).send({ success: true, message: "Status Updated Successfully" });
+    } else {
+      res.status(400).send({ success: false, message: "User not find" });
+    }
+
+  } catch (error) {
+    console.log("Error from updatePassword function", error);
+  }
+};
