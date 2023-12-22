@@ -2,6 +2,7 @@ import React, { useState, useContext, useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { RotatingLines } from 'react-loader-spinner'
 import Home from "./pages/Home";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
@@ -20,11 +21,23 @@ import { AuthContext } from "./store/auth";
 const App = () => {
 
   const { isLoggedIn, hasRole } = useContext(AuthContext);
+  const [loading, setLoading] = useState(false);
 
   return (
     <>
       <BrowserRouter>
         <Navbar />
+        <RotatingLines
+          visible={loading}
+          height="45"
+          width="45"
+          color="grey"
+          strokeWidth="5"
+          animationDuration="0.75"
+          ariaLabel="rotating-lines-loading"
+          wrapperStyle={{}}
+          wrapperClass=""
+        />
         <ToastContainer />
         <Routes>
           <Route path="/" element={<Home />} />

@@ -1,14 +1,17 @@
 import React, { useEffect, useContext, useState } from 'react';
 import { AuthContext } from '../store/auth';
+import Switch from '@mui/material/Switch';
+import { toast } from "react-toastify";
+import { RotatingLines } from 'react-loader-spinner'
+
+
 // import Swal from 'sweetalert2';
 
 const UsersList = () => {
 
-
     const { token } = useContext(AuthContext);
-
-    const [userData, setUserData] = useState([])
-
+    const [userData, setUserData] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     const deleteUser = async (_id) => {
         // Swal.fire({
@@ -59,6 +62,7 @@ const UsersList = () => {
 
     const changeStatus = async (_id) => {
         try {
+            setLoading(true);
             const response = await fetch(`http://localhost:5000/api/change-status?_id=${_id}`, {
                 method: "GET",
                 headers: {
@@ -68,12 +72,14 @@ const UsersList = () => {
 
             if (response.ok) {
                 const completeRes = await response.json();
+                setLoading(false);
                 toast.success(
                     completeRes.message
                 );
 
 
             } else {
+                setLoading(false);
                 const errorResponse = await response.json();
                 toast.error(
                     errorResponse.message
@@ -86,11 +92,10 @@ const UsersList = () => {
     };
 
 
-
-
     useEffect(() => {
         const fetchUserDetails = async () => {
             try {
+
                 const response = await fetch("http://localhost:5000/api/view-all-user", {
                     method: "GET",
                     headers: {
@@ -102,18 +107,34 @@ const UsersList = () => {
                     const completeRes = await response.json();
                     const completeData = completeRes.data;
                     setUserData(completeData);
-
+                    setLoading(false);
                 } else {
                     const errorResponse = await response.json();
                 }
             } catch (error) {
+                setLoading(false);
                 console.log("Error on Contact Page:", error);
             }
         };
+
         fetchUserDetails();
-    }, [token])
+
+    }, [userData]);
+
+
     return (
         <>
+            <RotatingLines
+                visible={loading}
+                height="45"
+                width="45"
+                color="grey"
+                strokeWidth="5"
+                animationDuration="0.75"
+                ariaLabel="rotating-lines-loading"
+                wrapperStyle={{}}
+                wrapperClass=""
+            />
             <table>
                 <thead>
                     <tr>
@@ -136,8 +157,14 @@ const UsersList = () => {
                                     <td>{mobile}</td>
                                     <td>{role}</td>
                                     <td>{status}</td>
-                                    <td><button className='deleteBtn' onClick={() => deleteUser(_id)}>Delete</button>
-                                        <button onClick={() => changeStatus(_id)}>Change Status</button></td>
+                                    <td>
+                                        <Switch
+                                            checked={(status == 'Y') ? 'checked' : null}
+                                            onClick={() => changeStatus(_id)}
+                                            inputProps={{ 'aria-label': 'controlled' }}
+                                        />
+                                        <button className='deleteBtn' onClick={() => deleteUser(_id)}>Delete</button>
+                                    </td>
                                 </tr>
                             )
                         })
