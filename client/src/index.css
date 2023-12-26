@@ -381,9 +381,9 @@ a.active {
       padding: 0.6rem 0.6rem;
     }
 
-    & button {
+    /* & button {
       margin-top: 3.2rem;
-    }
+    } */
   }
 }
 
@@ -732,13 +732,14 @@ table tbody td {
   color: rgb(212, 211, 211);
 }
 
-button.deleteBtn {
-  background-color: rgb(196, 54, 54);
-  margin-right: 10px;
+svg.delete-icon {
+  color: rgb(138, 24, 24);
+  font-size: 30px;
+  cursor: pointer;
 }
 
-button.deleteBtn:hover {
-  background-color: rgb(126, 24, 24);
+svg.delete-icon:hover {
+  color: rgb(185, 13, 13);
 }
 
 
@@ -793,4 +794,130 @@ button.deleteBtn:hover {
   height: 5rem;
   margin: auto;
   overflow: hidden;
+}
+
+/* CSS for Products Page */
+
+.products {
+  width: 130rem;
+  margin: auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}
+
+.products .product {
+  width: 22%;
+  overflow: hidden;
+  border: 1px solid gray;
+  padding: 10px 20px;
+  border-radius: 5%;
+  margin: 20px 0;
+  cursor: pointer;
+}
+
+.products .product:hover {
+  opacity: 0.7;
+  transform: scale(1.02);
+  -webkit-transform: scale(1.02);
+  -moz-transform: scale(1.02);
+}
+
+.products .product:hover img {
+  transform: scale(1.3);
+  -webkit-transform: scale(1.3);
+  -moz-transform: scale(1.3);
+}
+
+.products .product .product-img {
+  overflow: hidden;
+}
+
+.products .product .product-img img {
+  width: 100%;
+  height: 40vh;
+  border-radius: 5%;
+}
+
+.products .product .product-details {
+  font-family: monospace;
+  color: rgb(168, 162, 162);
+  text-align: center;
+  margin: 10px 0;
+}
+
+.products .product .product-details .product-name {
+  font-size: 20px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.products .product .product-details .product-price {
+  font-size: 17px;
+  margin-top: 5px;
+}
+
+/* Single Product Page Css */
+
+.single-product {
+  width: 130rem;
+  margin: auto;
+  display: flex;
+  justify-content: space-around;
+  padding: 100px;
+  border: 1px solid rgb(87, 86, 86);
+  border-radius: 5%;
+}
+
+.single-product .single-product-img {
+  width: 35%;
+  height: 75vh;
+  border: 1px solid;
+}
+
+.single-product .single-product-img img {
+  width: 100%;
+  height: 75vh;
+}
+
+.single-product .single-product-details {
+  width: 40%;
+  padding: 40px 0;
+}
+
+.single-product .single-product-details .single-product-name {
+  font-family: monospace;
+  font-size: 40px;
+  color: gray;
+  margin: 10px 0;
+}
+
+.single-product .single-product-details .single-product-price {
+  font-family: monospace;
+  font-size: 30px;
+  color: rgb(17, 75, 130);
+  margin: 20px 0;
+}
+
+.single-product .single-product-details .single-product-description {
+  font-size: 18px;
+  line-height: 20px;
+  letter-spacing: 1px;
+  color: #888787;
+  margin: 50px 0 0 0;
+  text-align: justify;
+}
+
+.single-product .single-product-details button {
+  margin-top: 50px;
+}
+
+.single-product .single-product-details button svg {
+  font-size: 25px;
+  margin: 0 8px -8px 0;
+}
+
+.single-product .single-product-details button:hover {
+  background-color: #2385CF;
 }

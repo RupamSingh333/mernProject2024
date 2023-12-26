@@ -17,6 +17,9 @@ import UpdateProfile from "./pages/UpdateProfile";
 import UsersList from "./components/UsersList";
 import ContactList from "./components/ContactList";
 import { AuthContext } from "./store/auth";
+import Products from "./pages/Products";
+import SingleProduct from "./components/SingleProduct";
+import ProductDetails from "./pages/ProductDetails";
 
 const App = () => {
 
@@ -41,12 +44,14 @@ const App = () => {
         <ToastContainer />
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/products" element={<Products />} />
+          <Route path="/product" element={<SingleProduct />} />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/service" element={<Service />} />
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
-
+          <Route path="/product-details/:id" element={<ProductDetails />} />
           {isLoggedIn && (<Route path="/user-profile" element={<UserProfile />} />)}
           {isLoggedIn && (<Route path="/update-profile" element={<UpdateProfile />} />)}
 

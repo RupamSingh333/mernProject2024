@@ -2,11 +2,36 @@ import React, { useEffect, useContext, useState } from 'react';
 import { AuthContext } from '../store/auth';
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import DeleteIcon from '@mui/icons-material/Delete';
+import Swal from 'sweetalert2';
 
 const ContactList = () => {
     const { token } = useContext(AuthContext);
 
     const [contactData, setContactData] = useState([]);
+
+    const deleteAlert = (_id) => {
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Swal.fire({
+                    title: "Deleted!",
+                    text: "Your file has been deleted.",
+                    icon: "success",
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+                deleteContact(_id)
+            }
+        });
+    };
 
     useEffect(() => {
         const fetchUserDetails = async () => {
@@ -31,7 +56,7 @@ const ContactList = () => {
             }
         };
         fetchUserDetails();
-    }, [token])
+    }, [contactData])
 
     const deleteContact = async (_id) => {
 
@@ -85,7 +110,7 @@ const ContactList = () => {
                                     <td>{email}</td>
                                     <td>{mobile}</td>
                                     <td>{reason}</td>
-                                    <td><button className='deleteBtn' onClick={() => deleteContact(_id)}>Delete</button></td>
+                                    <td><DeleteIcon className='delete-icon' onClick={() => deleteAlert(_id)} /></td>
                                 </tr>
                             )
                         })

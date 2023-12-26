@@ -1,13 +1,24 @@
-import React, { useState, useContext, useEffect } from "react";
+import * as React from 'react';
+import { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../store/auth";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
+import LoadingButton from '@mui/lab/LoadingButton';
+import SaveIcon from '@mui/icons-material/Save';
+import Stack from '@mui/material/Stack';
+
+
 const Register = () => {
 
   const { isLoggedIn } = useContext(AuthContext);
   const navigate = useNavigate();
+
+  const [loading, setLoading] = React.useState(false);
+  function handleClick() {
+    setLoading(true);
+  }
 
   useEffect(() => {
     if (isLoggedIn) {
@@ -96,6 +107,7 @@ const Register = () => {
 
   return (
     <>
+
       <section>
         <main>
           <div className="section-registration">
@@ -108,6 +120,7 @@ const Register = () => {
                   height="500"
                 />
               </div>
+
               {/* our main registration code  */}
               <div className="registration-form">
                 <h1 className="main-heading mb-3">registration form</h1>
@@ -167,7 +180,17 @@ const Register = () => {
                   </div>
                   <br />
                   <button type="submit" className="btn btn-submit">
-                    Register Now
+                    {/* <LoadingButton
+                      size="large"
+                      onClick={handleClick}
+                      loading={loading}
+                      color="secondary"
+                      variant="outlined"
+                      disabled
+                    >
+                  </LoadingButton> */}
+                    <span>Register Now</span>
+
                   </button>
                 </form>
               </div>
