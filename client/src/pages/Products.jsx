@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import { RotatingLines } from 'react-loader-spinner';
-import { NavLink } from "react-router-dom";
 
 const Products = () => {
     const [productData, setProductData] = useState([]);
@@ -9,7 +8,9 @@ const Products = () => {
     const navigate = useNavigate();
 
     // console.log(productData);
-
+    const singleProduct = (_id) => {
+        navigate(`/product-details/${_id}`)
+    }
 
     useEffect(() => {
 
@@ -36,27 +37,31 @@ const Products = () => {
                 setLoading(false);
             }
         };
+        setTimeout(() => {
 
-        fetchAllProducts();
+            fetchAllProducts();
+        }, 500);
     }, [productData]);
 
 
 
     return (
         <>
-            <RotatingLines
-                visible={loading}
-                height="45"
-                width="45"
-                color="grey"
-                strokeWidth="5"
-                animationDuration="0.75"
-                ariaLabel="rotating-lines-loading"
-                wrapperStyle={{}}
-                wrapperClass=""
-            />
 
             <div className="products">
+                <div className="loader">
+                    <RotatingLines
+                        visible={loading}
+                        height="60"
+                        width="60"
+                        color="grey"
+                        strokeWidth="3"
+                        animationDuration="0.75"
+                        ariaLabel="rotating-lines-loading"
+                        wrapperStyle={{}}
+                        wrapperClass=""
+                    />
+                </div>
                 {
                     productData.map((currentProduct, i) => {
                         const { _id, name, price, image } = currentProduct;
@@ -69,11 +74,6 @@ const Products = () => {
                                     <div className="product-name">{name}</div>
                                     <div className="product-price">&#8377; {price}</div>
                                 </div>
-                                <NavLink to={`/product-details/${_id}`} className="btn-main">
-                                    <button className="btn btn-submit">
-                                        Read More
-                                    </button>
-                                </NavLink>
                             </div>
                         )
                     })

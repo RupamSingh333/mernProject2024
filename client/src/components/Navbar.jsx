@@ -51,6 +51,11 @@ const Navbar = () => {
                             <NavLink to="/view-all-contact">Contacts</NavLink>
                           </li>
                         )}
+                        {hasRole('admin') && (
+                          <li>
+                            <NavLink to="/add-product">Add Product</NavLink>
+                          </li>
+                        )}
                         <li>
                           <Link to="/" onClick={logout}>
                             Logout

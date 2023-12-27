@@ -83,7 +83,18 @@ module.exports.viewProduct = async (req, res) => {
                     var imageURL = viewProduct.image.map((getImage) =>
                         `${process.env.FILE_PATH}/${getImage}`
                     )
-                    res.status(200).send({ success: true, message: "Product viewed successfully", data: viewProduct });
+                    const data = {
+                        _id: viewProduct._id,
+                        name: viewProduct.name,
+                        price: viewProduct.price,
+                        image: imageURL,
+                        description: viewProduct.description,
+                        categoryId: viewProduct.categoryId,
+                        subCategoryId: viewProduct.subCategoryId,
+                        companyId: viewProduct.companyId,
+                        status: viewProduct.status
+                    }
+                    res.status(200).send({ success: true, message: "Product viewed successfully", data: data });
                 }
             } else {
                 res.status(400).send({ success: false, message: "Invalid Id" });

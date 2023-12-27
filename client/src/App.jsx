@@ -14,12 +14,12 @@ import Footer from "./components/Footer/Footer";
 import Error from "./pages/Error";
 import UserProfile from "./pages/UserProfile";
 import UpdateProfile from "./pages/UpdateProfile";
-import UsersList from "./components/UsersList";
-import ContactList from "./components/ContactList";
+import UsersList from "./pages/UsersList";
+import ContactList from "./pages/ContactList";
 import { AuthContext } from "./store/auth";
 import Products from "./pages/Products";
-import SingleProduct from "./components/SingleProduct";
 import ProductDetails from "./pages/ProductDetails";
+import AddProduct from "./pages/AddProduct";
 
 const App = () => {
 
@@ -45,7 +45,6 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/products" element={<Products />} />
-          <Route path="/product" element={<SingleProduct />} />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/service" element={<Service />} />
@@ -57,6 +56,7 @@ const App = () => {
 
           {hasRole('admin') && (<Route path="/view-all-user" element={<UsersList />} />)}
           {hasRole('admin') && (<Route path="/view-all-contact" element={<ContactList />} />)}
+          {hasRole('admin') && (<Route path="/add-product" element={<AddProduct />} />)}
 
           <Route path="*" element={<Error />} />
         </Routes>
