@@ -28,7 +28,7 @@ module.exports.viewCompany = async (req, res) => {
     try {
         const Id = req.query._id;
         if (Id) {
-            const viewCompany = await Company.findOne({ _id: new ObjectId(Id) }, { _id: 0, name: 1, status: 1 });
+            const viewCompany = await Company.findOne({ _id: new ObjectId(Id) }, { _id: 1, name: 1, status: 1 });
             if (viewCompany) {
                 res.status(200).send({ success: true, message: "Company viewed successfully", data: viewCompany });
             } else {
@@ -36,7 +36,7 @@ module.exports.viewCompany = async (req, res) => {
             }
         }
         else {
-            const viewAllCompany = await Company.find({}, { _id: 0, name: 1, status: 1 });
+            const viewAllCompany = await Company.find({}, { _id: 1, name: 1, status: 1 });
             res.status(200).send({ success: true, message: "All Company successfully viewed", data: viewAllCompany });
         };
     } catch (error) {

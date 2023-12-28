@@ -15,7 +15,7 @@ categoryRoute.post(
 );
 
 //View All Category
-categoryRoute.get("/view-category", auth, categoryController.viewCategory);
+categoryRoute.get("/view-category", categoryController.viewCategory);
 
 //Update Category
 categoryRoute.post("/update-category", auth, categoryController.updateCategory);

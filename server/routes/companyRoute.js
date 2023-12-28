@@ -15,7 +15,7 @@ companyRoute.post(
 );
 
 //View All Company
-companyRoute.get("/view-company", auth, companyController.viewCompany);
+companyRoute.get("/view-company", companyController.viewCompany);
 
 //Update Company
 companyRoute.post("/update-company", auth, companyController.updateCompany);

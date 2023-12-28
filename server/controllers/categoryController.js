@@ -28,7 +28,7 @@ module.exports.viewCategory = async (req, res) => {
     try {
         const Id = req.query._id;
         if (Id) {
-            const viewCategory = await Category.findOne({ _id: new ObjectId(Id) }, { _id: 0, name: 1, status: 1 });
+            const viewCategory = await Category.findOne({ _id: new ObjectId(Id) }, { _id: 1, name: 1, status: 1 });
             if (viewCategory) {
                 res.status(200).send({ success: true, message: "Category viewed successfully", data: viewCategory });
             } else {
@@ -36,7 +36,7 @@ module.exports.viewCategory = async (req, res) => {
             }
         }
         else {
-            const viewAllCategory = await Category.find({}, { _id: 0, name: 1, status: 1 });
+            const viewAllCategory = await Category.find({}, { _id: 1, name: 1, status: 1 });
             res.status(200).send({ success: true, message: "All Category successfully viewed", data: viewAllCategory });
         };
     } catch (error) {

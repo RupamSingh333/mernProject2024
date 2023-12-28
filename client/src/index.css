@@ -939,3 +939,18 @@ svg.delete-icon:hover {
 .single-product .single-product-details button:hover {
   background-color: #2385CF;
 }
+
+/* ------------------ */
+.select {
+  display: flex;
+}
+
+.select-box {
+  width: 45%;
+}
+
+.select-box select {
+  width: 80%;
+  padding: 10px;
+  font-size: 17px;
+}

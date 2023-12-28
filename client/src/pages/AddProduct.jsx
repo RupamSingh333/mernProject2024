@@ -6,16 +6,20 @@ import "react-toastify/dist/ReactToastify.css";
 
 const AddProduct = () => {
     const { token } = useContext(AuthContext);
-
+    const [categories, setCategories] = useState([]);
+    const [companies, setCompanies] = useState([]);
     const [product, setProduct] = useState({
         name: "",
         price: "",
         description: "",
         image: "",
         categoryId: "",
-        subCategoryId: "",
         companyId: ""
     });
+
+    // console.log(categories);
+    // console.log(companies);
+
     // lets tackle our handleInput
     const handleInput = (e) => {
         const name = e.target.name;
@@ -38,17 +42,16 @@ const AddProduct = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        // console.log(product);
-        // return false;
 
         try {
+            // console.log(product);
+            // return false;
             const formData = new FormData();
             formData.append("name", product.name);
             formData.append("price", product.price);
             formData.append("description", product.description);
             formData.append("image", product.image);
             formData.append("categoryId", product.categoryId);
-            formData.append("subCategoryId", product.subCategoryId);
             formData.append("companyId", product.companyId);
 
 
@@ -62,15 +65,17 @@ const AddProduct = () => {
 
             if (response.ok) {
                 const completeRes = await response.json();
+                // console.log(completeRes);
+                // return false;
                 setProduct({
                     name: "",
                     price: "",
                     description: "",
                     image: "",
                     categoryId: "",
-                    subCategoryId: "",
                     companyId: ""
-                })
+                });
+
                 toast.success(
                     completeRes.message
                 );
@@ -88,8 +93,57 @@ const AddProduct = () => {
 
     };
 
+    useEffect(() => {
 
-    // handle fomr getFormSubmissionInfo
+        const fetchCategory = async () => {
+            try {
+
+                const response = await fetch("http://localhost:5000/api/view-category", {
+                    method: "GET",
+                });
+
+                if (response.ok) {
+                    const completeRes = await response.json();
+                    const completeData = completeRes.data;
+                    setCategories(completeData);
+                } else {
+                    const errorResponse = await response.json();
+                    console.log("Error on add product Page:", errorResponse.message);
+                }
+
+            } catch (error) {
+                console.log("Error on add product Page:", error);
+            }
+        };
+
+        const fetchCompany = async () => {
+            try {
+
+                const response = await fetch("http://localhost:5000/api/view-company", {
+                    method: "GET",
+                    headers: {
+                        // "Authorization": token,
+                    },
+                });
+
+                if (response.ok) {
+                    const completeRes = await response.json();
+                    const completeData = completeRes.data;
+                    setCompanies(completeData);
+                } else {
+                    const errorResponse = await response.json();
+                    console.log("Error on add product page:", errorResponse.message);
+                }
+
+            } catch (error) {
+                console.log("Error on add product page:", error);
+            }
+        };
+
+        fetchCompany();
+        fetchCategory();
+    }, []);
+
 
     return (
         <>
@@ -139,34 +193,35 @@ const AddProduct = () => {
                                     name="image"
                                     onChange={fileHandleInput}
                                     required
+                                    multiple
                                 />
                             </div>
-                            <div>
-                                <label htmlFor="category">Category</label>
-                                <select name="categoryId" id="categoryId" required onChange={handleInput}>
-                                    <option value="volvo">Volvo</option>
-                                    <option value="saab">Saab</option>
-                                    <option value="mercedes">Mercedes</option>
-                                    <option value="audi">Audi</option>
-                                </select>
-                            </div>
-                            <div>
-                                <label htmlFor="subCategory">Sub Category</label>
-                                <select name="subCategoryId" id="subCategoryId" required onChange={handleInput}>
-                                    <option value="volvo">Volvo</option>
-                                    <option value="saab">Saab</option>
-                                    <option value="mercedes">Mercedes</option>
-                                    <option value="audi">Audi</option>
-                                </select>
-                            </div>
-                            <div>
-                                <label htmlFor="company">Company</label>
-                                <select name="companyId" id="companyId" required onChange={handleInput}>
-                                    <option value="volvo">Volvo</option>
-                                    <option value="saab">Saab</option>
-                                    <option value="mercedes">Mercedes</option>
-                                    <option value="audi">Audi</option>
-                                </select>
+                            <div className="select">
+                                <div className="select-box">
+                                    <label htmlFor="category">Category</label>
+                                    <select name="categoryId" id="categoryId" required onChange={handleInput}>
+
+                                        <option key={categories.length + 1} value="">Select Category</option>
+                                        {categories &&
+                                            categories.map((curCat) =>
+                                                (<option key={curCat._id} value={curCat._id}>{curCat.name}</option>)
+                                            )
+                                        }
+                                    </select>
+                                </div>
+
+                                <div className="select-box">
+                                    <label htmlFor="company">Company</label>
+                                    <select name="companyId" id="companyId" required onChange={handleInput}>
+                                        <option key='sdfsdfsdf' value="">Select Company</option>
+                                        {companies &&
+                                            companies.map(
+                                                (curComp) => (<option key={curComp._id} value={curComp._id}>{curComp.name}</option>)
+                                            )
+                                        }
+
+                                    </select>
+                                </div>
                             </div>
                             <div>
                                 <label htmlFor="description">Description</label>
@@ -185,24 +240,11 @@ const AddProduct = () => {
 
 
                             <div>
-                                <button type="submit">Add</button>
+                                <button type="submit">Add Product</button>
                             </div>
                         </form>
                     </section>
                 </div>
-
-                <section className="mb-3">
-
-
-                    <iframe
-                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3559.757969317278!2d75.76627951115248!3d26.847649362786154!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x396db5dc708acf6d%3A0x539c5582951a6645!2sDAAC%20-%20Training%20and%20Development%20Course%20%7C%20Industrial%20Training%20%7C%20Programming%20training!5e0!3m2!1sen!2sin!4v1702324725001!5m2!1sen!2sin"
-                        width="100%"
-                        height="450"
-                        allowFullScreen=""
-                        loading="lazy"
-                        referrerPolicy="no-referrer-when-downgrade"
-                    ></iframe>
-                </section>
             </section>
         </>
     )

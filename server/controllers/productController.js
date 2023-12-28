@@ -19,6 +19,8 @@ module.exports.createProduct = async (req, res) => {
     try {
         const name = await helper.capitalizeName(req.body.name);
         const { price, description, categoryId, subCategoryId, companyId } = req.body;
+        // console.log(req.body);
+        // return false;
         if (!name) {
             res.status(400).send({ success: false, message: "Please Enter a Valid Name" });
             return false;
@@ -47,7 +49,7 @@ module.exports.createProduct = async (req, res) => {
                 price: price,
                 description: description,
                 categoryId: categoryId,
-                subCategoryId: subCategoryId,
+                // subCategoryId: subCategoryId,
                 companyId: companyId
             });
 
