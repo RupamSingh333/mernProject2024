@@ -5,13 +5,15 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const Login = () => {
-  const { setTokenInLs, login } = useContext(AuthContext);
+  const { loginUser, setTokenInLs, login } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const [user, setUser] = useState({
     email: "",
     password: "",
   });
+
+  const [isDisable, setisDisable] = useState(true);
 
   const handleInput = (e) => {
     let name = e.target.name;
@@ -27,24 +29,23 @@ const Login = () => {
     e.preventDefault();
 
     try {
-      const response = await fetch("http://localhost:5000/api/login-user", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(user),
-      });
-
-      if (response.ok) {
-        const completeRes = await response.json();
-        const { token } = completeRes.data;
-
+      setisDisable(false);
+      const response = await loginUser(user.email, user.password);
+      // console.log(response);
+      // return false;
+      if (response.success) {
+        // const completeRes = await response.json();
+        const { token } = response.data;
         setTokenInLs(token);
         navigate("/");
+        toast.success(
+          "Login Successfully"
+        );
       } else {
-        const errorResponse = await response.json();
+        setisDisable(true);
+        // const errorResponse = await response.json();
         toast.error(
-          errorResponse.message ||
+          response.message ||
           "Login failed. Invalid credentials or server error."
         );
       }
@@ -95,7 +96,9 @@ const Login = () => {
                   />
                 </div>
                 <br />
-                <button type="submit" className="btn btn-submit">
+                <button type="submit" disabled={!isDisable}
+                  className="add-item__button"
+                >
                   Login Now
                 </button>
               </form>

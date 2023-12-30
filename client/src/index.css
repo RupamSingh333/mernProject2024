@@ -806,8 +806,8 @@ svg.delete-icon:hover {
 /* CSS for Products Page */
 
 .products {
-  width: 130rem;
-  margin: auto;
+  width: 120rem;
+  margin: 0 auto;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-evenly;
@@ -818,7 +818,7 @@ svg.delete-icon:hover {
 }
 
 .products .product {
-  width: 22%;
+  width: 21%;
   overflow: hidden;
   border: 1px solid gray;
   padding: 10px 20px;
@@ -953,4 +953,14 @@ svg.delete-icon:hover {
   width: 80%;
   padding: 10px;
   font-size: 17px;
+}
+
+svg.update-icon {
+  font-size: 25px;
+  color: rgb(90, 155, 190);
+  cursor: pointer;
+}
+
+svg.update-icon:hover {
+  color: rgb(34, 73, 150);
 }

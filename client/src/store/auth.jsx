@@ -1,5 +1,6 @@
 import React, { createContext, useState, useEffect } from "react";
-import loginUser from "../services/api";
+import axios from "axios";
+const API_BASE_URL = "http://localhost:5000/api";
 
 // Create AuthContext
 export const AuthContext = createContext();
@@ -18,20 +19,7 @@ export const AuthProvider = ({ children }) => {
   }
 
   const [loggedInUser, setLoggedInUser] = useState(null);
-  const login = async (email, password) => {
-    try {
-      const response = await loginUser(email, password);
 
-      if (response.success) {
-        setLoggedInUser(response.data);
-        localStorage.setItem("loggedInUser", JSON.stringify(response.data));
-      }
-
-      return response;
-    } catch (error) {
-      throw error;
-    }
-  };
   // Function to handle login
   const setTokenInLs = (newToken) => {
     setToken(newToken);
@@ -43,6 +31,21 @@ export const AuthProvider = ({ children }) => {
     setToken("");
     setAuthData("");
     localStorage.removeItem("token");
+  };
+
+  // loginUser 
+  const loginUser = async (email, password) => {
+    try {
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+      const response = await axios.post(`${API_BASE_URL}/login-user`, {
+        email,
+        password
+      });
+
+      return response.data;
+    } catch (error) {
+      return error.response.data;
+    }
   };
 
   const fetchUserDetails = async () => {
@@ -81,10 +84,9 @@ export const AuthProvider = ({ children }) => {
     isLoggedIn,
     setTokenInLs,
     logout,
-    login,
     fetchUserDetails,
     authData,
-    hasRole
+    hasRole, loginUser
   };
 
   return (

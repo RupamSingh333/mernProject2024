@@ -8,7 +8,8 @@ const loginUser = async (email, password) => {
             email,
             password
         });
-        return response.data;
+        await new Promise((resolve) => setTimeout(resolve, 2000));
+        return response;
     } catch (error) {
         return error.response.data;
     }

@@ -20,6 +20,9 @@ import { AuthContext } from "./store/auth";
 import Products from "./pages/Products";
 import ProductDetails from "./pages/ProductDetails";
 import AddProduct from "./pages/AddProduct";
+import ProductList from "./pages/ProductList";
+import UpdateProduct from "./pages/UpdateProduct";
+import CartItem from "./pages/CartItem";
 
 const App = () => {
 
@@ -45,6 +48,7 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/products" element={<Products />} />
+          <Route path="/cart-item" element={<CartItem />} />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/service" element={<Service />} />
@@ -57,6 +61,8 @@ const App = () => {
           {hasRole('admin') && (<Route path="/view-all-user" element={<UsersList />} />)}
           {hasRole('admin') && (<Route path="/view-all-contact" element={<ContactList />} />)}
           {hasRole('admin') && (<Route path="/add-product" element={<AddProduct />} />)}
+          {hasRole('admin') && (<Route path="/product-list" element={<ProductList />} />)}
+          {hasRole('admin') && (<Route path="/update-product/:id" element={<UpdateProduct />} />)}
 
           <Route path="*" element={<Error />} />
         </Routes>

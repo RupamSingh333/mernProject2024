@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import { NavLink, Link } from "react-router-dom";
 import { AuthContext } from "../store/auth";
 import "./Navbar.css";
+import { IoCartOutline } from "react-icons/io5";
 
 const Navbar = () => {
   const { isLoggedIn, logout, hasRole, authData } = useContext(AuthContext);
@@ -29,6 +30,9 @@ const Navbar = () => {
             <li>
               <NavLink to="/service">Service</NavLink>
             </li>
+            <li>
+              <NavLink to="/cart-item"><IoCartOutline /></NavLink>
+            </li>
 
             {isLoggedIn ? (
               <>
@@ -54,6 +58,11 @@ const Navbar = () => {
                         {hasRole('admin') && (
                           <li>
                             <NavLink to="/add-product">Add Product</NavLink>
+                          </li>
+                        )}
+                        {hasRole('admin') && (
+                          <li>
+                            <NavLink to="/product-list">Product List</NavLink>
                           </li>
                         )}
                         <li>

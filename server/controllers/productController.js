@@ -115,11 +115,16 @@ module.exports.viewProduct = async (req, res) => {
         //     res.status(200).send({ success: true, message: "All Products successfully viewed", data: viewAllProductByCompanyId });
         // }
         else {
+            const limit = parseInt(req.query.limit) || 5;
+            const page = parseInt(req.query.page) || 1;
+            const skip = (page - 1) * limit;
             const viewAllProduct = await Products.find({}, { createdAt: 0, updatedAt: 0 })
                 .select("-__v")
                 .populate({ path: "categoryId", select: "name" })
                 .populate({ path: "subCategoryId", select: "name" })
                 .populate({ path: "companyId", select: "name" })
+                .limit(limit)
+                .skip(skip);
             if (viewAllProduct) {
                 var getProduct = viewAllProduct.map((product) => {
                     return {
