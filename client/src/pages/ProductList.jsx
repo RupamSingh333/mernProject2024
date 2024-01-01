@@ -5,14 +5,29 @@ import Switch from '@mui/material/Switch';
 import { toast } from "react-toastify";
 import { RotatingLines } from 'react-loader-spinner';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { GrUpdate } from "react-icons/gr";
+import { CiEdit } from "react-icons/ci";
 import Swal from 'sweetalert2';
+import Pagination from '../components/Pagination';
 
 const ProductList = () => {
 
     const { token } = useContext(AuthContext);
     const [productData, setProductData] = useState([]);
     const [loading, setLoading] = useState(true);
+
+    // Pagination state
+    const itemsPerPage = 5;
+    const [currentPage, setCurrentPage] = useState(1);
+
+    // Calculate the range of items to display on the current page
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    const currentItems = productData.slice(indexOfFirstItem, indexOfLastItem);
+
+    // Function to handle page changes
+    const handlePageChange = (pageNumber) => {
+        setCurrentPage(pageNumber);
+    };
 
     const deleteProduct = (_id) => {
         Swal.fire({
@@ -79,7 +94,7 @@ const ProductList = () => {
                 });
                 if (response.ok) {
                     const completeRes = await response.json();
-                    console.log(completeRes);
+                    // console.log(completeRes);
                     const completeData = completeRes.getProduct;
                     setProductData(completeData);
                     setLoading(false);
@@ -125,19 +140,19 @@ const ProductList = () => {
                         <th>Company</th>
                         <th>Description</th>
                         <th>Status</th>
-                        <th>Update</th>
+                        <th>Edit</th>
                         <th>Delete</th>
                     </tr>
                 </thead>
                 <tbody>
                     {
-                        productData.map((curProd, i) => {
+                        currentItems.map((curProd, i) => {
                             const { _id, name, status, image, description, price } = curProd;
                             const category = curProd.categoryId.name;
                             const company = curProd.companyId.name;
                             return (
                                 <tr key={i}>
-                                    <td className="user-img"><img src={image} alt="product-image" /></td>
+                                    <td className="user-img"><img src={image[0]} alt="product-image" /></td>
                                     <td>{name}</td>
                                     <td>{price}</td>
                                     <td>{category}</td>
@@ -145,7 +160,7 @@ const ProductList = () => {
                                     <td>{description}</td>
                                     <td>{status}</td>
                                     <td><NavLink to={`/update-product/${_id}`}>
-                                        <GrUpdate className='update-icon' />
+                                        <CiEdit className='update-icon' />
                                     </NavLink>
                                     </td>
                                     <td>
@@ -157,6 +172,13 @@ const ProductList = () => {
                     }
                 </tbody>
             </table>
+
+            <Pagination
+                itemsPerPage={itemsPerPage}
+                totalItems={productData.length}
+                currentPage={currentPage}
+                onPageChange={handlePageChange}
+            />
         </>
     )
 }

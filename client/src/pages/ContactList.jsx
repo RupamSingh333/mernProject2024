@@ -4,12 +4,27 @@ import "react-toastify/dist/ReactToastify.css";
 import DeleteIcon from '@mui/icons-material/Delete';
 import Swal from 'sweetalert2';
 import { RotatingLines } from 'react-loader-spinner';
+import Pagination from '../components/Pagination';
 
 const ContactList = () => {
     const { token } = useContext(AuthContext);
 
     const [contactData, setContactData] = useState([]);
     const [loading, setLoading] = useState(true);
+
+    // Pagination state
+    const itemsPerPage = 5;
+    const [currentPage, setCurrentPage] = useState(1);
+
+    // Calculate the range of items to display on the current page
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    const currentItems = contactData.slice(indexOfFirstItem, indexOfLastItem);
+
+    // Function to handle page changes
+    const handlePageChange = (pageNumber) => {
+        setCurrentPage(pageNumber);
+    };
 
     const deleteContact = (_id) => {
         Swal.fire({
@@ -123,7 +138,7 @@ const ContactList = () => {
                 </thead>
                 <tbody>
                     {
-                        contactData.map((currentContact, i) => {
+                        currentItems.map((currentContact, i) => {
                             const { _id, name, email, mobile, reason } = currentContact;
                             return (
                                 <tr key={i}>
@@ -138,6 +153,12 @@ const ContactList = () => {
                     }
                 </tbody>
             </table>
+            <Pagination
+                itemsPerPage={itemsPerPage}
+                totalItems={contactData.length}
+                currentPage={currentPage}
+                onPageChange={handlePageChange}
+            />
         </>
     )
 }

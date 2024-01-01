@@ -500,7 +500,14 @@ module.exports.deleteAllUser = async (req, res) => {
 
 module.exports.viewAllUser = async (req, res) => {
   try {
-    const viewAllUsers = await Users.find({ role: "user" });
+    const limit = parseInt(req.query.limit) || 500;
+    const page = parseInt(req.query.page) || 1;
+    const skip = (page - 1) * limit;
+    const viewAllUsers = await Users.find({ role: "user" })
+      .select("-__v")
+      .limit(limit)
+      .skip(skip);
+
     const fileURL = path.join(__dirname, `../public/uploads/`);
 
     if (viewAllUsers) {

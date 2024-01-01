@@ -918,7 +918,9 @@ svg.delete-icon:hover {
   margin: 20px 0;
 }
 
-.single-product .single-product-details .single-product-description {
+.single-product .single-product-details .single-product-description,
+.single-product .single-product-details .product-category,
+.single-product .single-product-details .product-company {
   font-size: 18px;
   line-height: 20px;
   letter-spacing: 1px;
@@ -963,4 +965,187 @@ svg.update-icon {
 
 svg.update-icon:hover {
   color: rgb(34, 73, 150);
+}
+
+/*  */
+.product-container {
+  width: 130rem;
+  margin: auto;
+  display: flex;
+  justify-content: start;
+  align-items: start;
+  gap: 40px;
+  padding: 0 10%;
+}
+
+.img-card {
+  width: 50%;
+  height: 400px;
+}
+
+.img-card img.big-img {
+  width: 100%;
+  padding: 0 10%;
+  flex-shrink: 0;
+  border-radius: 4px;
+  object-fit: cover;
+}
+
+.small-Card {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: start;
+  align-items: center;
+  margin-top: 15px;
+  gap: 12px;
+}
+
+.small-Card img {
+  width: 104px;
+  height: 104px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.small-Card img:active {
+  border: 1px solid #17696a;
+}
+
+.sm-card {
+  border: 2px solid darkred;
+}
+
+.product-info {
+  width: 60%;
+}
+
+.product-info h3 {
+  font-size: 32px;
+  font-family: Lato;
+  font-weight: 600;
+  line-height: 130%;
+}
+
+.product-info h5 {
+  font-size: 24px;
+  font-family: Lato;
+  font-weight: 500;
+  line-height: 130%;
+  color: #ff4242;
+  margin: 6px 0;
+}
+
+.product-info del {
+  color: #a9a9a9;
+}
+
+.product-info p {
+  color: #424551;
+  margin: 15px 0;
+  width: 70%;
+}
+
+.sizes p {
+  font-size: 22px;
+  color: black;
+}
+
+.size-option {
+  width: 200px;
+  height: 30px;
+  margin-bottom: 15px;
+  padding: 5px;
+}
+
+.quantity input {
+  width: 51px;
+  height: 33px;
+  margin-bottom: 15px;
+  padding: 6px;
+}
+
+.product-container button {
+  background: #17696a;
+  border-radius: 4px;
+  padding: 10px 37px;
+  border: none;
+  color: white;
+  font-weight: 600;
+}
+
+.product-container button:hover {
+  background: #ff4242;
+  transition: ease-in 0.4s;
+}
+
+.delivery {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 70%;
+  color: #787a80;
+  font-size: 12px;
+  font-family: Lato;
+  line-height: 150%;
+  letter-spacing: 1px;
+}
+
+hr {
+  color: #787a80;
+  width: 58%;
+  opacity: 0.67;
+}
+
+.pagination {
+  color: #787a80;
+  margin: 15px 0;
+  cursor: pointer;
+}
+
+@media screen and (max-width: 576px) {
+  .product-container {
+    flex-direction: column;
+  }
+
+  .small-Card img {
+    width: 80px;
+  }
+
+  .product-info {
+    width: 100%;
+  }
+
+  .product-info p {
+    width: 100%;
+  }
+
+  .delivery {
+    width: 100%;
+  }
+
+  hr {
+    width: 100%;
+  }
+}
+
+
+/* pagination */
+
+ul.pagination {
+  width: 100rem;
+  margin: auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+}
+
+button.pagination-btn {
+  color: white;
+  background-color: #3e3a3b;
+}
+
+button.pagination-btn:hover {
+  color: white;
+  background-color: #583e45;
 }

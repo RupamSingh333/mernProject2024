@@ -13,7 +13,7 @@ const UpdateProduct = () => {
         description: "",
         image: ""
     });
-
+    console.log(product);
     const handleInput = (e) => {
         const name = e.target.name;
         const value = e.target.value;
@@ -41,7 +41,7 @@ const UpdateProduct = () => {
             formData.append("name", product.name);
             formData.append("price", product.price);
             formData.append("description", product.description);
-            formData.append("image", product.image)
+            formData.append("image", product.image);
             formData.append("_id", id)
 
             const response = await fetch("http://localhost:5000/api/update-product", {

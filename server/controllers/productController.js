@@ -115,7 +115,7 @@ module.exports.viewProduct = async (req, res) => {
         //     res.status(200).send({ success: true, message: "All Products successfully viewed", data: viewAllProductByCompanyId });
         // }
         else {
-            const limit = parseInt(req.query.limit) || 5;
+            const limit = parseInt(req.query.limit) || 500;
             const page = parseInt(req.query.page) || 1;
             const skip = (page - 1) * limit;
             const viewAllProduct = await Products.find({}, { createdAt: 0, updatedAt: 0 })

@@ -5,12 +5,27 @@ import { toast } from "react-toastify";
 import { RotatingLines } from 'react-loader-spinner';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Swal from 'sweetalert2';
+import Pagination from '../components/Pagination';
 
 const UsersList = () => {
 
     const { token } = useContext(AuthContext);
     const [userData, setUserData] = useState([]);
     const [loading, setLoading] = useState(true);
+
+    // Pagination state
+    const itemsPerPage = 5;
+    const [currentPage, setCurrentPage] = useState(1);
+
+    // Calculate the range of items to display on the current page
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    const currentItems = userData.slice(indexOfFirstItem, indexOfLastItem);
+
+    // Function to handle page changes
+    const handlePageChange = (pageNumber) => {
+        setCurrentPage(pageNumber);
+    };
 
     const deleteUser = (_id) => {
         Swal.fire({
@@ -160,7 +175,7 @@ const UsersList = () => {
                 </thead>
                 <tbody>
                     {
-                        userData.map((curUser, i) => {
+                        currentItems.map((curUser, i) => {
                             const { _id, name, email, role, mobile, status, avtar } = curUser;
                             return (
                                 <tr key={i}>
@@ -185,6 +200,12 @@ const UsersList = () => {
                     }
                 </tbody>
             </table>
+            <Pagination
+                itemsPerPage={itemsPerPage}
+                totalItems={userData.length}
+                currentPage={currentPage}
+                onPageChange={handlePageChange}
+            />
         </>
     )
 }

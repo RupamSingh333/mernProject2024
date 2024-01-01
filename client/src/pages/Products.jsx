@@ -1,11 +1,26 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import { RotatingLines } from 'react-loader-spinner';
+import Pagination from '../components/Pagination';
 
 const Products = () => {
     const [productData, setProductData] = useState([]);
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
+
+    // Pagination state
+    const itemsPerPage = 8;
+    const [currentPage, setCurrentPage] = useState(1);
+
+    // Calculate the range of items to display on the current page
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    const currentItems = productData.slice(indexOfFirstItem, indexOfLastItem);
+
+    // Function to handle page changes
+    const handlePageChange = (pageNumber) => {
+        setCurrentPage(pageNumber);
+    };
 
     // console.log(productData);
     const singleProduct = (_id) => {
@@ -63,7 +78,7 @@ const Products = () => {
                     />
                 </div>
                 {
-                    productData.map((currentProduct, i) => {
+                    currentItems.map((currentProduct, i) => {
                         const { _id, name, price, image } = currentProduct;
                         return (
                             <div className="product" key={i} onClick={() => singleProduct(_id)} >
@@ -79,6 +94,12 @@ const Products = () => {
                     })
                 }
             </div>
+            <Pagination
+                itemsPerPage={itemsPerPage}
+                totalItems={productData.length}
+                currentPage={currentPage}
+                onPageChange={handlePageChange}
+            />
         </>
     )
 }

@@ -25,7 +25,13 @@ module.exports.contactUs = async (req, res) => {
 
 module.exports.viewAllContact = async (req, res) => {
     try {
-        const viewAllContact = await Contact.find({});
+        const limit = parseInt(req.query.limit) || 500;
+        const page = parseInt(req.query.page) || 1;
+        const skip = (page - 1) * limit;
+        const viewAllContact = await Contact.find({})
+            .select("-__v")
+            .limit(limit)
+            .skip(skip);
         res.status(200).send({ success: true, message: "All User viewed successfully", data: viewAllContact });
     } catch (error) {
         console.log("Error from viewAllUser Function", error);
