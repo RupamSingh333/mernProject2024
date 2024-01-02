@@ -12,9 +12,9 @@ const AddProduct = () => {
         name: "",
         price: "",
         description: "",
-        image: "",
         categoryId: "",
-        companyId: ""
+        companyId: "",
+        image: ''
     });
 
     // console.log(categories);
@@ -31,26 +31,36 @@ const AddProduct = () => {
         });
     };
 
-    const fileHandleInput = (e) => {
-        let name = e.target.name;
-        let value = e.target.files[0];
-        setProduct({
-            ...product,
-            [name]: value,
-        })
+    // const fileHandleInput = (e) => {
+    //     let name = e.target.name;
+    //     let value = e.target.files[0];
+    //     setProduct({
+    //         ...product,
+    //         [name]: value,
+    //     })
+    // };
+
+    const selectFiles = (event) => {
+        let image = [];
+        for (let i = 0; i < event.target.files.length; i++) {
+            image.push(event.target.files[i]);
+        }
+
+        setProduct({ ...product, image });
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         try {
-            // console.log(product);
-            // return false;
             const formData = new FormData();
+            Array.from(product.image).forEach(image => {
+                formData.append("image", image);
+            });
             formData.append("name", product.name);
             formData.append("price", product.price);
             formData.append("description", product.description);
-            formData.append("image", product.image);
+            // formData.append("image", product.image[0]);
             formData.append("categoryId", product.categoryId);
             formData.append("companyId", product.companyId);
 
@@ -63,18 +73,21 @@ const AddProduct = () => {
                 body: formData,
             });
 
+            console.log('====================================');
+            console.log(response);
+            console.log('====================================');
+            return false;
             if (response.ok) {
                 const completeRes = await response.json();
                 // console.log(completeRes);
                 // return false;
-                setProduct({
-                    name: "",
-                    price: "",
-                    description: "",
-                    image: "",
-                    categoryId: "",
-                    companyId: ""
-                });
+                // setProduct({
+                //     name: "",
+                //     price: "",
+                //     description: "",
+                //     categoryId: "",
+                //     companyId: ""
+                // });
 
                 toast.success(
                     completeRes.message
@@ -191,7 +204,7 @@ const AddProduct = () => {
                                 <input
                                     type="file"
                                     name="image"
-                                    onChange={fileHandleInput}
+                                    onChange={selectFiles}
                                     required
                                     multiple
                                 />

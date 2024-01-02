@@ -2,7 +2,7 @@ import React, { useState, useContext, useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { RotatingLines } from 'react-loader-spinner'
+import { RotatingLines } from 'react-loader-spinner';
 import Home from "./pages/Home";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
@@ -23,6 +23,7 @@ import AddProduct from "./pages/AddProduct";
 import ProductList from "./pages/ProductList";
 import UpdateProduct from "./pages/UpdateProduct";
 import CartItem from "./pages/CartItem";
+import SearchProduct from "./pages/SearchProduct";
 
 const App = () => {
 
@@ -48,6 +49,7 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/products" element={<Products />} />
+          <Route path="/search-product" element={<SearchProduct />} />
           <Route path="/cart-item" element={<CartItem />} />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />

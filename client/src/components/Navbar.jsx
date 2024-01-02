@@ -3,6 +3,7 @@ import { NavLink, Link } from "react-router-dom";
 import { AuthContext } from "../store/auth";
 import "./Navbar.css";
 import { IoCartOutline } from "react-icons/io5";
+import { CiSearch } from "react-icons/ci";
 
 const Navbar = () => {
   const { isLoggedIn, logout, hasRole, authData } = useContext(AuthContext);
@@ -29,6 +30,9 @@ const Navbar = () => {
             </li>
             <li>
               <NavLink to="/service">Service</NavLink>
+            </li>
+            <li>
+              <NavLink to="/search-product"><CiSearch /></NavLink>
             </li>
             <li>
               <NavLink to="/cart-item"><IoCartOutline /></NavLink>

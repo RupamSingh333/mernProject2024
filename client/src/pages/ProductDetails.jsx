@@ -9,8 +9,6 @@ const ProductDetails = () => {
     const { id } = useParams();
     const [singleProduct, setSingleProduct] = useState();
 
-    // console.log(singleProduct.image);
-
 
     useEffect(() => {
         const getProduct = async () => {
@@ -93,8 +91,8 @@ const ProductDetails = () => {
 
                     <div className="small-Card">
 
-                        {singleProduct.image.map((curImg) => (
-                            <img key={'rtytyt'} src={curImg} alt="" className="small-Img" />
+                        {singleProduct.image.map((curImg, i) => (
+                            <img key={i} src={curImg} alt="" className="small-Img" />
                         ))
                         }
                     </div>
@@ -121,31 +119,6 @@ const ProductDetails = () => {
                         <button>Add to Cart</button>
                     </div>
 
-                    <div>
-                        <p>Delivery:</p>
-                        <p>Free standard shipping on orders over $35 before tax, plus free returns.</p>
-                        <div className="delivery">
-                            <p>TYPE</p> <p>HOW LONG</p> <p>HOW MUCH</p>
-                        </div>
-                        <hr />
-                        <div className="delivery">
-                            <p>Standard delivery</p>
-                            <p>1-4 business days</p>
-                            <p>$4.50</p>
-                        </div>
-                        <hr />
-                        <div className="delivery">
-                            <p>Express delivery</p>
-                            <p>1 business day</p>
-                            <p>$10.00</p>
-                        </div>
-                        <hr />
-                        <div className="delivery">
-                            <p>Pick up in store</p>
-                            <p>1-3 business days</p>
-                            <p>Free</p>
-                        </div>
-                    </div>
                 </div>
             </section>}
         </>

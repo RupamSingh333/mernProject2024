@@ -19,7 +19,7 @@ module.exports.createProduct = async (req, res) => {
     try {
         const name = await helper.capitalizeName(req.body.name);
         const { price, description, categoryId, subCategoryId, companyId } = req.body;
-        // console.log(req.body);
+        console.log(req.files);
         // return false;
         if (!name) {
             res.status(400).send({ success: false, message: "Please Enter a Valid Name" });
@@ -55,10 +55,16 @@ module.exports.createProduct = async (req, res) => {
 
             if (req.files) {
                 const fileData = req.files.map((image) => image.filename);
+                console.log('====================================');
+                console.log(fileData);
+                return false;
+                console.log('====================================');
+
                 createProduct.image = fileData;
             } else {
                 createProduct.image = null;
             }
+
             const saveProduct = await createProduct.save();
             res.status(200).send({ success: true, message: "Product create successfully" });
         }
@@ -281,7 +287,7 @@ module.exports.searchProduct = async (req, res) => {
         }
     }
     try {
-        const limit = parseInt(req.query.limit) || 5;
+        const limit = parseInt(req.query.limit) || 500;
         const page = parseInt(req.query.page) || 1;
         const skip = (page - 1) * limit;
         const searchProduct = await Products.find(filter)

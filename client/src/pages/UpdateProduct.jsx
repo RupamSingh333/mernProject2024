@@ -7,13 +7,44 @@ const UpdateProduct = () => {
     const { id } = useParams();
     const { token } = useContext(AuthContext);
 
+    const [productData, setProductData] = useState();
+
+    // console.log(singleProduct.image);
+
+
+    useEffect(() => {
+        const getProductData = async () => {
+            try {
+                const response = await fetch(`http://localhost:5000/api/view-product?_id=${id}`, {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                });
+
+                if (response.ok) {
+                    const completeRes = await response.json();
+                    const productData = completeRes.data;
+                    // console.log(productData);
+                    // return false;
+                    setProductData(productData);
+                } else {
+                    const errorResponse = await response.json();
+                }
+            } catch (error) {
+                console.log("Error on delete user function:", error);
+            }
+        };
+
+        getProductData();
+    }, [productData]);
+
     const [product, setProduct] = useState({
         name: "",
         price: "",
         description: "",
         image: ""
     });
-    console.log(product);
     const handleInput = (e) => {
         const name = e.target.name;
         const value = e.target.value;
@@ -93,7 +124,7 @@ const UpdateProduct = () => {
                     </div>
 
                     {/* contact form content actual  */}
-                    <section className="section-form">
+                    {productData && <section className="section-form">
                         <form onSubmit={handleSubmit}>
                             <div>
                                 <label htmlFor="name">Name</label>
@@ -102,7 +133,7 @@ const UpdateProduct = () => {
                                     name="name"
                                     id="name"
                                     autoComplete="off"
-                                    value={product.name}
+                                    value={productData.name}
                                     onChange={handleInput}
                                     placeholder="Name"
                                 />
@@ -114,7 +145,7 @@ const UpdateProduct = () => {
                                     name="price"
                                     id="price"
                                     autoComplete="off"
-                                    value={product.price}
+                                    value={productData.price}
                                     onChange={handleInput}
                                     placeholder="Price"
                                 />
@@ -134,7 +165,7 @@ const UpdateProduct = () => {
                                     name="description"
                                     id="description"
                                     autoComplete="off"
-                                    value={product.description}
+                                    value={productData.description}
                                     onChange={handleInput}
                                     placeholder="description write here..."
                                     cols="30"
@@ -147,7 +178,7 @@ const UpdateProduct = () => {
                                 <button type="submit">Update</button>
                             </div>
                         </form>
-                    </section>
+                    </section>}
                 </div>
             </section>
         </>

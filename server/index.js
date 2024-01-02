@@ -40,6 +40,10 @@ App.use("/api", contactRoute);
 const bannerRoute = require("./routes/bannerRoute");
 App.use("/api", bannerRoute);
 
+// Cart Route
+const cartRoute = require("./routes/cartRoute");
+App.use("/api", cartRoute);
+
 App.get('/', function (req, res) {
   res.send('Hello World')
 });
