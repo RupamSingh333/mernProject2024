@@ -13,3 +13,14 @@ ul {
 svg {
     font-size: 30px;
 }
+
+a.cart {
+    position: relative;
+}
+
+span.total-cart-items {
+    position: absolute;
+    top: -26px;
+    left: 28px;
+    color: rgb(48, 85, 134);
+}

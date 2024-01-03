@@ -50,13 +50,13 @@ const App = () => {
           <Route path="/" element={<Home />} />
           <Route path="/products" element={<Products />} />
           <Route path="/search-product" element={<SearchProduct />} />
-          <Route path="/cart-item" element={<CartItem />} />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/service" element={<Service />} />
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
           <Route path="/product-details/:id" element={<ProductDetails />} />
+          {isLoggedIn && (<Route path="/cart-item" element={<CartItem />} />)}
           {isLoggedIn && (<Route path="/user-profile" element={<UserProfile />} />)}
           {isLoggedIn && (<Route path="/update-profile" element={<UpdateProfile />} />)}
 

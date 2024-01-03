@@ -1,6 +1,6 @@
 import React from "react";
 import { useState, useContext, useEffect } from "react";
-import { AuthContext } from "../store/auth"
+import { AuthContext } from "../store/auth";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -8,17 +8,14 @@ const AddProduct = () => {
     const { token } = useContext(AuthContext);
     const [categories, setCategories] = useState([]);
     const [companies, setCompanies] = useState([]);
+    const [filesImage, setfilesImage] = useState([])
     const [product, setProduct] = useState({
         name: "",
         price: "",
         description: "",
         categoryId: "",
         companyId: "",
-        image: ''
     });
-
-    // console.log(categories);
-    // console.log(companies);
 
     // lets tackle our handleInput
     const handleInput = (e) => {
@@ -31,38 +28,36 @@ const AddProduct = () => {
         });
     };
 
-    // const fileHandleInput = (e) => {
-    //     let name = e.target.name;
-    //     let value = e.target.files[0];
-    //     setProduct({
-    //         ...product,
-    //         [name]: value,
-    //     })
-    // };
-
-    const selectFiles = (event) => {
-        let image = [];
-        for (let i = 0; i < event.target.files.length; i++) {
-            image.push(event.target.files[i]);
+    let images = [];
+    const fileHandleMultiple = (e) => {
+        for (let i = 0; i < e.target.files.length; i++) {
+            images.push(e.target.files[i]);
         }
+        setfilesImage(images)
+    }
 
-        setProduct({ ...product, image });
-    };
+    // const selectFiles = (event) => {
+    //     let image = [];
+    //     for (let i = 0; i < event.target.files.length; i++) {
+    //         image.push(event.target.files[i]);
+    //     }
+
+    //     setProduct({ ...product, image });
+    // };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         try {
             const formData = new FormData();
-            Array.from(product.image).forEach(image => {
-                formData.append("image", image);
-            });
             formData.append("name", product.name);
             formData.append("price", product.price);
             formData.append("description", product.description);
-            // formData.append("image", product.image[0]);
             formData.append("categoryId", product.categoryId);
             formData.append("companyId", product.companyId);
+            filesImage.forEach(element => {
+                formData.append("image", element);
+            });
 
 
             const response = await fetch("http://localhost:5000/api/create-product", {
@@ -73,21 +68,17 @@ const AddProduct = () => {
                 body: formData,
             });
 
-            console.log('====================================');
-            console.log(response);
-            console.log('====================================');
-            return false;
             if (response.ok) {
                 const completeRes = await response.json();
                 // console.log(completeRes);
                 // return false;
-                // setProduct({
-                //     name: "",
-                //     price: "",
-                //     description: "",
-                //     categoryId: "",
-                //     companyId: ""
-                // });
+                setProduct({
+                    name: "",
+                    price: "",
+                    description: "",
+                    categoryId: "",
+                    companyId: ""
+                });
 
                 toast.success(
                     completeRes.message
@@ -204,7 +195,7 @@ const AddProduct = () => {
                                 <input
                                     type="file"
                                     name="image"
-                                    onChange={selectFiles}
+                                    onChange={fileHandleMultiple}
                                     required
                                     multiple
                                 />

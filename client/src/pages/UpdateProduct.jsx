@@ -8,6 +8,8 @@ const UpdateProduct = () => {
     const { token } = useContext(AuthContext);
 
     const [productData, setProductData] = useState();
+    const [filesImage, setfilesImage] = useState([])
+
 
     // console.log(singleProduct.image);
 
@@ -42,8 +44,7 @@ const UpdateProduct = () => {
     const [product, setProduct] = useState({
         name: "",
         price: "",
-        description: "",
-        image: ""
+        description: ""
     });
     const handleInput = (e) => {
         const name = e.target.name;
@@ -55,14 +56,13 @@ const UpdateProduct = () => {
         });
     };
 
-    const fileHandleInput = (e) => {
-        let name = e.target.name;
-        let value = e.target.files[0];
-        setProduct({
-            ...product,
-            [name]: value,
-        })
-    };
+    let images = [];
+    const fileHandleMultiple = (e) => {
+        for (let i = 0; i < e.target.files.length; i++) {
+            images.push(e.target.files[i]);
+        }
+        setfilesImage(images)
+    }
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -72,8 +72,10 @@ const UpdateProduct = () => {
             formData.append("name", product.name);
             formData.append("price", product.price);
             formData.append("description", product.description);
-            formData.append("image", product.image);
-            formData.append("_id", id)
+            formData.append("_id", id),
+                filesImage.forEach(element => {
+                    formData.append("image", element);
+                });
 
             const response = await fetch("http://localhost:5000/api/update-product", {
                 method: 'POST',
@@ -90,8 +92,7 @@ const UpdateProduct = () => {
                 setProduct({
                     name: "",
                     price: "",
-                    description: "",
-                    image: ""
+                    description: ""
                 });
 
                 toast.success(
@@ -155,7 +156,7 @@ const UpdateProduct = () => {
                                 <input
                                     type="file"
                                     name="image"
-                                    onChange={fileHandleInput}
+                                    onChange={fileHandleMultiple}
                                     multiple
                                 />
                             </div>

@@ -807,7 +807,7 @@ svg.delete-icon:hover {
 
 .products {
   width: 120rem;
-  margin: 0 auto;
+  margin: auto;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-evenly;
@@ -976,6 +976,7 @@ svg.update-icon:hover {
   align-items: start;
   gap: 40px;
   padding: 0 10%;
+  height: 120vh;
 }
 
 .img-card {
@@ -1250,3 +1251,88 @@ button.pagination-btn:hover {
   text-overflow: ellipsis;
   color: rgb(134, 134, 134);
 }
+
+/* Cart item Css */
+.cartitems {
+  margin: 100px 170px;
+}
+
+.cartitems hr {
+  height: 3px;
+  background: #e2e2e2;
+  border: 0;
+  width: 100%;
+}
+
+.cartItems-format-main {
+  display: grid;
+  grid-template-columns: 0.5fr 2fr 1fr 1fr 1fr 1fr;
+  align-items: center;
+  gap: 75px;
+  padding: 20px 0;
+  /* color: #454545; */
+  font-size: 18px;
+  font-weight: 600;
+
+}
+
+
+.cartitems-format {
+  font-size: 17px;
+  font-weight: 500;
+}
+
+.carticon-product-icon {
+  height: 62px;
+}
+
+.cartitems-remove-icon {
+  width: 25px;
+  margin: 0 40px;
+  cursor: pointer;
+}
+
+.cartitems-quantity {
+  width: 64px;
+  height: 50px;
+  border: 2px solid #ebebeb;
+}
+
+.cartitems-down {
+  display: flex;
+  margin: 20px 0px;
+}
+
+.cartitems-total {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.cartitems-total-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 15px 0;
+}
+
+.cartitems-total button {
+  width: 262px;
+  height: 58px;
+  outline: none;
+  border: none;
+  background: #ff5a5a;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+svg.cartitems-remove-icon {
+  color: #fff;
+  font-size: 30px;
+  cursor: pointer;
+}
+
+
+/*  */

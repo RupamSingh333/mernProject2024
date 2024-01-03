@@ -88,11 +88,9 @@ const ProductDetails = () => {
             {singleProduct && <section className="product-container">
                 <div className="img-card">
                     <img className="big-img" src={singleProduct.image[0]} alt="" id="featured-image" />
-
                     <div className="small-Card">
-
                         {singleProduct.image.map((curImg, i) => (
-                            <img key={i} src={curImg} alt="" className="small-Img" />
+                            <img key={i} src={curImg} alt="product img" className="small-Img" />
                         ))
                         }
                     </div>
@@ -102,7 +100,6 @@ const ProductDetails = () => {
                     <h3>{singleProduct.name}</h3>
                     <h5>{singleProduct.price}<del>$170</del></h5>
                     <p>{singleProduct.description}</p>
-
 
                     <div className="sizes">
                         <p>Size:</p>

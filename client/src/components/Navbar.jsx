@@ -34,12 +34,14 @@ const Navbar = () => {
             <li>
               <NavLink to="/search-product"><CiSearch /></NavLink>
             </li>
-            <li>
-              <NavLink to="/cart-item"><IoCartOutline /></NavLink>
-            </li>
 
             {isLoggedIn ? (
               <>
+                <li>
+                  <NavLink className="cart" to="/cart-item"><IoCartOutline />
+                    <span className="total-cart-items">5</span>
+                  </NavLink>
+                </li>
 
                 <li>
                   <div className="navImg">

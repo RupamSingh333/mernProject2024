@@ -8,18 +8,43 @@ const { config } = require("process");
 
 module.exports.addToCart = async (req, res) => {
     try {
-        const { productName, price, quantity, productId, userId } = req.body;
+        const { _id } = req.user.data;
+        delete req.user; //some security resone delete user data 
+        const { quantity, productId } = req.body;
+        const alreadyExist = await Cart.findOne({ productId, userId: _id });
+        // console.log(alreadyExist);
+        // return false;
         const addToCartData = new Cart({
-            productName: productName,
-            price: price,
             quantity: quantity,
             productId: productId,
-            userId: userId
+            userId: _id
         });
-        const saveCartData = await addToCartData.save();
+        if (alreadyExist) {
+            const cardId = alreadyExist._id;
+            const updatedQuntity = Number(alreadyExist.quantity) + Number(quantity);
+            await Cart.updateOne({ _id: cardId }, { $set: { quantity: updatedQuntity } });
+        } else {
+            await addToCartData.save();
+        }
+
         res.status(200).send({ success: true, message: "Add to cart successfully" });
     } catch (error) {
         res.status(400).send({ success: false, message: "error in addToCart function : ", error });
+    }
+};
+
+module.exports.deleteCartItem = async (req, res) => {
+    try {
+        const { _id } = req.query;
+        const findItem = await Cart.findOne({ _id });
+        if (findItem) {
+            await Cart.deleteOne({ _id });
+            res.status(200).send({ success: true, message: "Item delete successfully" });
+        } else {
+            res.status(400).send({ success: false, message: "Item not Found" });
+        }
+    } catch (error) {
+        res.status(400).send({ success: false, message: "error in deleteCartItem function : ", error });
     }
 };
 

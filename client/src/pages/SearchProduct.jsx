@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from "react-router-dom";
+import Pagination from '../components/Pagination';
 
 const SearchProduct = () => {
 
@@ -9,6 +10,20 @@ const SearchProduct = () => {
     const productDetail = (_id) => {
         navigate(`/product-details/${_id}`)
     }
+
+    // Pagination state
+    // const itemsPerPage = 5;
+    // const [currentPage, setCurrentPage] = useState(1);
+
+    // Calculate the range of items to display on the current page
+    // const indexOfLastItem = currentPage * itemsPerPage;
+    // const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    // const currentItems = productData.slice(indexOfFirstItem, indexOfLastItem);
+
+    // Function to handle page changes
+    // const handlePageChange = (pageNumber) => {
+    //     setCurrentPage(pageNumber);
+    // };
 
     const searchProduct = async (e) => {
         let value = e.target.value;
@@ -63,6 +78,12 @@ const SearchProduct = () => {
                     ))}
                 </div>
             </div>
+            {/* <Pagination
+                itemsPerPage={itemsPerPage}
+                totalItems={productData.length}
+                currentPage={currentPage}
+                onPageChange={handlePageChange}
+            /> */}
         </>
     )
 }
