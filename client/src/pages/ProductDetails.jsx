@@ -1,14 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { FaCartShopping } from "react-icons/fa6";
 import { useParams } from "react-router-dom";
 import { RotatingLines } from 'react-loader-spinner';
-
+import { AuthContext } from '../store/auth';
+import Swal from 'sweetalert2';
+import { toast } from "react-toastify";
 
 const ProductDetails = () => {
-
+    const { addToCart } = useContext(AuthContext);
     const { id } = useParams();
     const [singleProduct, setSingleProduct] = useState();
-
+    const [quantity, setQuantity] = useState(1)
 
     useEffect(() => {
         const getProduct = async () => {
@@ -38,6 +40,27 @@ const ProductDetails = () => {
             getProduct();
         }, 500);
     }, [singleProduct]);
+
+    const handleCart = async (e) => {
+        const response = await addToCart({
+            "quantity": quantity,
+            "productId": id
+        });
+
+        if (response.ok) {
+            const completeRes = await response.json();
+            // toast.success(
+            //     completeRes.message
+            // );
+        } else {
+            const errorResponse = await response.json();
+            // toast.error(
+            //     errorResponse.message
+            // );
+        }
+        // console.log(response);
+        // return false;
+    }
 
     {/* <div className="single-products">
 
@@ -101,7 +124,7 @@ const ProductDetails = () => {
                     <h5>{singleProduct.price}<del>$170</del></h5>
                     <p>{singleProduct.description}</p>
 
-                    <div className="sizes">
+                    {/* <div className="sizes">
                         <p>Size:</p>
                         <select name="Size" id="size" className="size-option">
                             <option value="xxl">XXL</option>
@@ -109,11 +132,11 @@ const ProductDetails = () => {
                             <option value="medium">Medium</option>
                             <option value="small">Small</option>
                         </select>
-                    </div>
+                    </div> */}
 
                     <div className="quantity">
-                        <input type="number" value="1" min="1" />
-                        <button>Add to Cart</button>
+                        <input type="number" name='quantity' onChange={e => setQuantity(e.target.value)} value={quantity} min="1" />
+                        <button onClick={handleCart}>Add to Cart</button>
                     </div>
 
                 </div>

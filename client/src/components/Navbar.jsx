@@ -6,7 +6,7 @@ import { IoCartOutline } from "react-icons/io5";
 import { CiSearch } from "react-icons/ci";
 
 const Navbar = () => {
-  const { isLoggedIn, logout, hasRole, authData } = useContext(AuthContext);
+  const { isLoggedIn, logout, hasRole, authData, cartItemCounts } = useContext(AuthContext);
 
   return (
     <header>
@@ -39,7 +39,7 @@ const Navbar = () => {
               <>
                 <li>
                   <NavLink className="cart" to="/cart-item"><IoCartOutline />
-                    <span className="total-cart-items">5</span>
+                    <span className="total-cart-items">{(cartItemCounts > 0) ? cartItemCounts : null}</span>
                   </NavLink>
                 </li>
 

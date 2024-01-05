@@ -15,6 +15,12 @@ cartRoute.post(
     cartController.addToCart
 );
 
+//Get Cart item Route
+cartRoute.get(
+    "/get-cart-items", auth,
+    cartController.getCartItems
+);
+
 //Delete Cart item Route
 cartRoute.get(
     "/delete-cart-item", auth,

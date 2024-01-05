@@ -1,8 +1,7 @@
 import React, { createContext, useState, useEffect } from "react";
 import axios from "axios";
 const API_BASE_URL = "http://localhost:5000/api";
-import Swal from 'sweetalert2';
-import { toast } from "react-toastify";
+
 
 // Create AuthContext
 export const AuthContext = createContext();
@@ -15,7 +14,7 @@ export const AuthProvider = ({ children }) => {
   // State to determine if the user is logged in
   const [isLoggedIn, setIsLoggedIn] = useState(!!token);
   const [authData, setAuthData] = useState({});
-  const [cartData, setCartData] = useState({});
+  const [cartItemCounts, setCartItemCounts] = useState(0);
 
   const hasRole = (role) => {
     return isLoggedIn && authData.role === role;
@@ -75,7 +74,7 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const addToCart = async (e) => {
+  const addToCart = async (cartData) => {
 
     try {
       const response = await fetch("http://localhost:5000/api/add-to-cart", {
@@ -86,25 +85,35 @@ export const AuthProvider = ({ children }) => {
         },
         body: JSON.stringify(cartData),
       });
+      cartCount();
+      return response;
 
-      if (response.ok) {
-        const completeRes = await response.json();
-        toast.success(
-          completeRes.message
-        );
-      } else {
-        const errorResponse = await response.json();
-        toast.error(
-          errorResponse.message
-        );
-      }
 
     } catch (error) {
       console.log("Error in Add to cart Function", error);
-      toast.error("An unexpected error occurred.");
     }
 
   };
+
+  const cartCount = async () => {
+    try {
+      const response = await fetch(API_BASE_URL + '/get-cart-items', {
+        method: 'GET',
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": token,
+        },
+      });
+      const completeRes = await response.json();
+      // console.log(completeRes);
+      setCartItemCounts(completeRes.data)
+      // return response;
+
+    } catch (error) {
+      console.log("Error in Add to cart Function", error);
+    }
+
+  }
 
   const deleteCartItem = (_id) => {
     Swal.fire({
@@ -163,7 +172,8 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     setIsLoggedIn(!!token);
     fetchUserDetails();
-  }, [token]);
+    cartCount();
+  }, [token, cartItemCounts]);
 
   // AuthContext Provider value
   const contextValue = {
@@ -174,8 +184,9 @@ export const AuthProvider = ({ children }) => {
     fetchUserDetails,
     authData,
     hasRole, loginUser,
-    addToCart, setCartData,
-    deleteCartItem
+    addToCart,
+    deleteCartItem,
+    cartItemCounts
   };
 
   return (

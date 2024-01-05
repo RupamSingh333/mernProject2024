@@ -33,6 +33,21 @@ module.exports.addToCart = async (req, res) => {
     }
 };
 
+module.exports.getCartItems = async (req, res) => {
+    try {
+        const { _id } = req.user.data;
+        delete req.user; //some security resone delete user data 
+        const totalCart = await Cart.find({ userId: new ObjectId(_id) });
+        let totalcartItemsCount = 0;
+        totalCart.map((cur) => {
+            totalcartItemsCount += cur.quantity;
+        })
+        res.status(200).send({ success: true, message: "complete cart items", data: totalcartItemsCount });
+    } catch (error) {
+        res.status(400).send({ success: false, message: "error in fetching cart item function : ", error });
+    }
+}
+
 module.exports.deleteCartItem = async (req, res) => {
     try {
         const { _id } = req.query;
