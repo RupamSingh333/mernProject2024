@@ -11,8 +11,8 @@ const orderController = require("../controllers/orderController");
 
 //Add To Cart Route
 orderRoute.post(
-    "/add-order", auth,
-    orderController.addOrder
+    "/create-order", auth,
+    orderController.createOrder
 );
 
 
