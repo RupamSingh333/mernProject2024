@@ -16,7 +16,7 @@ const CartItem = () => {
             "quantity": 1,
             "productId": productId
         });
-
+        fetchCartItems();
         if (response.ok) {
             const completeRes = await response.json();
         } else {
@@ -32,6 +32,7 @@ const CartItem = () => {
                     "Authorization": token,
                 },
             });
+            fetchCartItems()
             if (response.ok) {
                 const completeRes = await response.json();
                 cartCount();
@@ -120,7 +121,7 @@ const CartItem = () => {
 
     useEffect(() => {
         fetchCartItems();
-    }, [cartItemDetail])
+    }, [])
     // console.log(cartItemDetail[1].grandTotal);
 
     return (

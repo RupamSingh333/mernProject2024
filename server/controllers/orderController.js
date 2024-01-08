@@ -1,41 +1,48 @@
 const Order = require("../models/orderModel");
 const OrderItem = require("../models/orderItemModel");
-const helper = require("../utils/helper");
-const { ObjectId } = require("mongodb");
-const randomstring = require("randomstring");
-const path = require("path");
-const fs = require("fs");
-const { config } = require("process");
 
 module.exports.createOrder = async (req, res) => {
-    try {
-        // console.log(req.body);
+  const { name, email, _id } = req.user.data;
+  const { totalAmount, paymentMode, orderItems, deliveryDetails } = req.body;
 
-        var orderItemIds = [];
-        req.body.orderItems.map(async (cur) => {
+  try {
+    const orderItemIds = [];
 
-            const createOrderItem = new OrderItem({
-                productId: cur.productId,
-                quantity: cur.quantity,
-                price: cur.price,
-                productName: cur.productName
-            });
-            const saveCategory = await createOrderItem.save();
-            // console.log(saveCategory._id);
-            orderItemIds = [saveCategory._id];
-        });
+    for (const cur of orderItems) {
+      const createOrderItem = new OrderItem({
+        productId: cur.productId,
+        quantity: cur.quantity,
+        price: cur.price,
+        productName: cur.productName,
+      });
 
-        const createOrderItem = new Order({
-            productId: cur.productId,
-            quantity: cur.quantity,
-            orderItems: [orderItemIds],
-            productName: cur.productName
-        });
-        const saveCategory = await createOrderItem.save();
-
-
-        res.status(200).send({ success: true, message: "Add Order successfully", data: req.body });
-    } catch (error) {
-        res.status(400).send({ success: false, message: "error in create Order function : ", error });
+      const savedOrderItem = await createOrderItem.save();
+      orderItemIds.push(savedOrderItem._id);
     }
+
+    const createOrder = new Order({
+      orderItems: orderItemIds,
+      customerName: name,
+      email: email,
+      totalAmount: totalAmount,
+      paymentMode: paymentMode,
+      userId: _id,
+      deliveryDetails: deliveryDetails,
+    });
+
+    const savedOrder = await createOrder.save();
+
+    res.status(200).send({
+      success: true,
+      message: "Order added successfully",
+      data: savedOrder._id,
+    });
+  } catch (error) {
+    console.error("Error in createOrder function:", error);
+    res.status(400).send({
+      success: false,
+      message: "Error in createOrder function",
+      error,
+    });
+  }
 };

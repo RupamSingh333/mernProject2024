@@ -38,15 +38,13 @@ const Login = () => {
         const { token } = response.data;
         setTokenInLs(token);
         navigate("/");
-        toast.success(
-          "Login Successfully"
-        );
+        toast.success("Login Successfully");
       } else {
         setisDisable(true);
         // const errorResponse = await response.json();
         toast.error(
           response.message ||
-          "Login failed. Invalid credentials or server error."
+            "Login failed. Invalid credentials or server error."
         );
       }
     } catch (error) {
@@ -96,10 +94,12 @@ const Login = () => {
                   />
                 </div>
                 <br />
-                <button type="submit" disabled={!isDisable}
+                <button
+                  type="submit"
+                  disabled={!isDisable}
                   className="add-item__button"
                 >
-                  Login Now
+                  {!isDisable ? "Logging In..." : "Login Now"}
                 </button>
               </form>
             </div>
