@@ -41,7 +41,7 @@ const ProductDetails = () => {
         }, 500);
     }, [singleProduct]);
 
-    const handleCart = async (e) => {
+    const handleCart = async () => {
         const response = await addToCart({
             "quantity": quantity,
             "productId": id

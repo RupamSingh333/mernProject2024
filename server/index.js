@@ -44,6 +44,11 @@ App.use("/api", bannerRoute);
 const cartRoute = require("./routes/cartRoute");
 App.use("/api", cartRoute);
 
+// Order Route
+const orderRoute = require("./routes/orderRoute");
+App.use("/api", orderRoute);
+
+
 App.get('/', function (req, res) {
   res.send('Hello World')
 });

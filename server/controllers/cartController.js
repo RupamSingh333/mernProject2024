@@ -33,7 +33,7 @@ module.exports.addToCart = async (req, res) => {
     }
 };
 
-module.exports.getCartItems = async (req, res) => {
+module.exports.getCartItemsCount = async (req, res) => {
     try {
         const { _id } = req.user.data;
         delete req.user; //some security resone delete user data 
@@ -46,7 +46,66 @@ module.exports.getCartItems = async (req, res) => {
     } catch (error) {
         res.status(400).send({ success: false, message: "error in fetching cart item function : ", error });
     }
-}
+};
+
+module.exports.getCartItemDetails = async (req, res) => {
+    try {
+        const { _id } = req.user.data;
+        delete req.user; //some security resone delete user data 
+        const totalCart = await Cart.find({ userId: new ObjectId(_id) })
+            .select("-__v")
+            .populate({ path: "productId" });
+        const fileURL = path.join(__dirname, `../public/uploads/`);
+
+        gtotal = 0;
+
+        let completeData = totalCart.map((cartItem) => {
+            gtotal += cartItem.quantity * cartItem.productId.price;
+            if (fs.existsSync(`${fileURL}${cartItem.productId.image[0]}`)) {
+                return {
+                    ...cartItem.toObject(),
+                    productImage: `${process.env.FILE_PATH}/${cartItem.productId.image[0]}`,
+                    productPrice: cartItem.productId.price,
+                    productName: cartItem.productId.name,
+                    total: cartItem.quantity * cartItem.productId.price,
+                };
+            } else {
+                return {
+                    ...cartItem.toObject(),
+                    productImage: `${process.env.DEFAULT_IMAGE}`,
+                    productPrice: cartItem.productId.price,
+                    productName: cartItem.productId.name,
+                    total: cartItem.quantity * cartItem.productId.price
+                };
+            }
+        });
+        res.status(200).send({ success: true, message: "complete cart item details", data: [{ cartitem: completeData }, { grandTotal: gtotal }] });
+
+    } catch (error) {
+        console.log(error);
+        res.status(400).send({ success: false, message: "error in getCartItemDetails function : ", error });
+    }
+};
+
+module.exports.decreaseCartItem = async (req, res) => {
+    try {
+        const { _id } = req.query;
+        const findItem = await Cart.findOne({ _id });
+        if (findItem) {
+            const updatedQuntity = Number(findItem.quantity) - 1;
+            if (findItem.quantity <= 1) {
+                await Cart.deleteOne({ _id });
+            }
+            const decreaseItem = await Cart.updateOne({ _id }, { $set: { quantity: updatedQuntity } });
+            res.status(200).send({ success: true, message: "Decrease Cart Item successfully" });
+        } else {
+            res.status(400).send({ success: false, message: "Can't find item" });
+        }
+    } catch (error) {
+        console.log(error);
+        res.status(400).send({ success: false, message: "error in decreaseCartItem function : ", error });
+    }
+};
 
 module.exports.deleteCartItem = async (req, res) => {
     try {

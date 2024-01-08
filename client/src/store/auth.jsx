@@ -105,7 +105,7 @@ export const AuthProvider = ({ children }) => {
         },
       });
       const completeRes = await response.json();
-      // console.log(completeRes);
+      // console.log(completeRes.data);
       setCartItemCounts(completeRes.data)
       // return response;
 
@@ -113,59 +113,6 @@ export const AuthProvider = ({ children }) => {
       console.log("Error in Add to cart Function", error);
     }
 
-  }
-
-  const deleteCartItem = (_id) => {
-    Swal.fire({
-      title: "Are you sure?",
-      text: "You won't be able to revert this!",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, delete it!"
-    }).then(async (result) => {
-      if (result.isConfirmed) {
-        try {
-          const response = await fetch(`http://localhost:5000/api/delete-cart-item?_id=${_id}`, {
-            method: "GET",
-            headers: {
-              "Authorization": token,
-            },
-          });
-
-          if (response.ok) {
-            const completeRes = await response.json();
-            Swal.fire({
-              title: "Deleted!",
-              text: completeRes.message,
-              icon: "success",
-              showConfirmButton: false,
-              timer: 1500
-            });
-          } else {
-            const errorResponse = await response.json();
-            Swal.fire({
-              title: "Deleted!",
-              text: errorResponse.message,
-              icon: "error",
-              showConfirmButton: false,
-              timer: 1500
-            });
-          }
-        } catch (error) {
-          console.log("Error on deleteCartItem function:", error);
-          Swal.fire({
-            title: "Deleted!",
-            text: error,
-            icon: "error",
-            showConfirmButton: false,
-            timer: 1500
-          });
-        }
-
-      }
-    });
   };
 
   // useEffect to update isLoggedIn based on token changes
@@ -185,8 +132,9 @@ export const AuthProvider = ({ children }) => {
     authData,
     hasRole, loginUser,
     addToCart,
-    deleteCartItem,
-    cartItemCounts
+    cartItemCounts,
+    API_BASE_URL,
+    cartCount
   };
 
   return (

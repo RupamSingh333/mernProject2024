@@ -18,13 +18,25 @@ cartRoute.post(
 //Get Cart item Route
 cartRoute.get(
     "/get-cart-items", auth,
-    cartController.getCartItems
+    cartController.getCartItemsCount
 );
 
 //Delete Cart item Route
 cartRoute.get(
     "/delete-cart-item", auth,
     cartController.deleteCartItem
+);
+
+//Get Cart item Details Route
+cartRoute.post(
+    "/get-cart-item-details", auth,
+    cartController.getCartItemDetails
+);
+
+//Decrease Cart item Route
+cartRoute.get(
+    "/decrease-cart-item", auth,
+    cartController.decreaseCartItem
 );
 
 module.exports = cartRoute;
